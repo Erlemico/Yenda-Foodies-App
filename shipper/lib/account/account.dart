@@ -3,13 +3,12 @@ import 'editprofile.dart';
 import '../signin/signin.dart';
 
 class Account extends StatelessWidget {
-  // Data dummy untuk sementara
   final String userNickname = 'Kang Bundir';
   final String userName = 'dazee';
   final String userEmail = 'dazekangbundir@bsd.com';
   final String userPhone = '+8187839628754';
   final String userAddress = 'Jl. Chuuya No. 17, Yokohama';
-  final String userPhotoURL = 'assets/images/logo.png'; // Example photo URL
+  final String userPhotoURL = 'assets/images/dazee.jpg';
 
   @override
   Widget build(BuildContext context) {

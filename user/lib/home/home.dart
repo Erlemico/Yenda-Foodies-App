@@ -1,11 +1,13 @@
+// home.dart
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import '../product/product.dart';
 import '../account/account.dart';
 import '../history/history.dart';
 import '../cart/cart.dart';
 import '../product/productdetails.dart';
+import '../api/apirecommendation.dart';
+
 
 class HomeScreen extends StatefulWidget {
   final int initialIndex;
@@ -24,49 +26,14 @@ class _HomeScreenState extends State<HomeScreen> {
   int _currentPage2 = 0;
   Timer? _bannerTimer;
 
-  List<Map<String, dynamic>> _products = [
-    {
-      'image': 'assets/images/menu/sidedish/rendangdaging.png',
-      'name': 'Rendang Daging',
-      'price': '17.000',
-      'description': 'Dibuat penuh cinta dengan daging sapi pilihan dan disempurnakan dengan rempah-rempah berkualitas, menghadirkan cita rasa yang tak tertandingi.',
-    },
-    {
-      'image': 'assets/images/menu/sidedish/ayambakar.png',
-      'name': 'Ayam Bakar',
-      'price': '17.000',
-      'description': 'Dibuat dengan daging ayam segar pilihan dan dipadukan dengan bumbu-bumbu khas serta rempah-rempah berkualitas untuk menghadirkan cita rasa otentik dan memikat.',
-    },
-    {
-      'image': 'assets/images/menu/sidedish/ayamgulai.png',
-      'name': 'Ayam Gulai',
-      'price': '18.000',
-      'description': 'Ayam gulai dengan kuah santan yang gurih, memberikan cita rasa istimewa untuk berbagai macam hidangan.',
-    },
-    {
-      'image': 'assets/images/menu/sidedish/gulaicincang.png',
-      'name': 'Gulai Cincang',
-      'price': '25.000',
-      'description': 'Nikmati kelezatan gulai cincang kami yang kaya akan rempah-rempah pilihan. Setiap suapannya membawa cita rasa yang memanjakan lidah dan memuaskan selera!',
-    },
-    {
-      'image': 'assets/images/menu/sidedish/dendengbatako.png',
-      'name': 'Dendeng Batako',
-      'price': '25.000',
-      'description': 'Nikmati sensasi pedas manis dendeng balado yang gurih dan lezat. Dibuat dengan bahan-bahan berkualitas dan balutan rempah balado yang khas.',
-    },
-    {
-      'image': 'assets/images/menu/package/paketnasirendangayamgoreng.png',
-      'name': 'Paket Nasi Rendang Ayam Goreng',
-      'price': '47.000',
-      'description': 'Paket nasi dengan rendang dan ayam goreng.',
-    },
-  ];
+  Future<List<Map<String, dynamic>>>? _productsFuture;
 
   @override
   void initState() {
     super.initState();
     _selectedIndex = widget.initialIndex;
+    _productsFuture = ApiRecommendation().fetchMenuItems(); // Fetch data
+
     _bannerTimer = Timer.periodic(Duration(seconds: 3), (Timer timer) {
       setState(() {
         _currentPage1 = (_currentPage1 + 1) % 5;
@@ -190,30 +157,44 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         SizedBox(height: 8.0),
         Expanded(
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: _products.length,
-            itemBuilder: (context, index) {
-              return InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ProductDetailScreen(
-                        image: _products[index]['image'],
-                        itemName: _products[index]['name'],
-                        itemPrice: _products[index]['price'],
-                        itemDescription: _products[index]['description'],
+          child: FutureBuilder<List<Map<String, dynamic>>>(
+            future: _productsFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Failed to load products'));
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return Center(child: Text('No products available'));
+              } else {
+                return ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    final product = snapshot.data![index];
+                    return InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProductDetailScreen(
+                              image: product['image'],
+                              itemName: product['name'],
+                              itemPrice: product['price'],
+                              itemDescription: product['description'],
+                            ),
+                          ),
+                        );
+                      },
+                      child: _buildRecommendedItem(
+                        product['image'],
+                        product['name'],
+                        product['price'],
                       ),
-                    ),
-                  );
-                },
-                child: _buildRecommendedItem(
-                  _products[index]['image'],
-                  _products[index]['name'],
-                  _products[index]['price'],
-                ),
-              );
+                    );
+                  },
+                );
+              }
             },
           ),
         ),
@@ -342,51 +323,32 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildRecommendedItem(String imagePath, String name, String price) {
-    double priceValue;
-    try {
-      priceValue = double.parse(price.replaceAll(RegExp('[^0-9]'), '')); // Remove non-numeric characters
-    } catch (e) {
-      priceValue = 0.0;
-    }
-
+  Widget _buildRecommendedItem(String image, String name, String price) {
     return Container(
-      width: 160,
-      margin: EdgeInsets.only(left: 16.0, bottom: 16.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
+      width: 150,
+      margin: EdgeInsets.only(left: 16, right: 8),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: 80,
-            width: 120,
+            height: 100,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
               image: DecorationImage(
-                image: AssetImage(imagePath),
+                image: NetworkImage(image),
                 fit: BoxFit.cover,
               ),
+              borderRadius: BorderRadius.circular(8),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name,
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                SizedBox(height: 3),
-                Text(
-                  NumberFormat.currency(locale: 'id_ID', symbol: 'Rp ', decimalDigits: 0).format(priceValue),
-                  style: TextStyle(fontSize: 14.0, color: Color(0xFFE00E0F)),
-                ),
-              ],
-            ),
+          SizedBox(height: 8),
+          Text(
+            name,
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 4),
+          Text(
+            'Rp $price',
+            style: TextStyle(fontSize: 12, color: Colors.grey),
           ),
         ],
       ),

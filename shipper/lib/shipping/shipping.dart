@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../home/dashboard.dart';
 
 class Pengiriman extends StatefulWidget {
+  const Pengiriman({super.key});
+
   @override
   _PengirimanState createState() => _PengirimanState();
   
@@ -17,7 +19,6 @@ class _PengirimanState extends State<Pengiriman> {
     });
   }
 
-  // Daftar pengiriman dummy
   final List<Map<String, dynamic>> pengirimanList = [
     {
       'orderId': '#1201241215',
@@ -65,14 +66,14 @@ class _PengirimanState extends State<Pengiriman> {
             Center(
               child: Column(
                 children: [
-                  Text(
+                  const Text(
                     'Pengiriman',
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
                     width: MediaQuery.of(context).size.width,
@@ -92,7 +93,7 @@ class _PengirimanState extends State<Pengiriman> {
                         hintStyle: TextStyle(
                           color: Colors.black.withOpacity(0.5),
                         ),
-                        prefixIcon: Icon(
+                        prefixIcon: const Icon(
                           Icons.search,
                           size: 30,
                           color: Colors.black,
@@ -128,7 +129,7 @@ class _PengirimanState extends State<Pengiriman> {
                 ],
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Column(
               children: filteredPengirimanList.map((pengiriman) {
                 return ShippingItem(
@@ -153,7 +154,7 @@ class FilterButton extends StatelessWidget {
   final bool isSelected;
   final VoidCallback onTap;
 
-  FilterButton({
+  const FilterButton({super.key, 
     required this.text,
     required this.isSelected,
     required this.onTap,
@@ -164,13 +165,13 @@ class FilterButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        margin: EdgeInsets.symmetric(horizontal: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        margin: const EdgeInsets.symmetric(horizontal: 4),
         decoration: BoxDecoration(
-          color: isSelected ? Color(0xFFE00E0F) : Colors.white,
+          color: isSelected ? const Color(0xFFE00E0F) : Colors.white,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: isSelected ? Color(0xFFE00E0F) : Colors.black,
+            color: isSelected ? const Color(0xFFE00E0F) : Colors.black,
           ),
         ),
         child: Text(

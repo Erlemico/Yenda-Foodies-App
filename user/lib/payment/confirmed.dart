@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../home/home.dart';
-import 'paymentinfo.dart';
+import '../payment/paymentinfo.dart';
 
 class Confirmed extends StatelessWidget {
   final String orderId;

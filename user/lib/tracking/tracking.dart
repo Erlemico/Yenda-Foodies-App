@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../orderdetail/orderdetail.dart';
+import '../history/orderdetail.dart';
 import '../home/home.dart';
 
 class TrackingScreen extends StatelessWidget {

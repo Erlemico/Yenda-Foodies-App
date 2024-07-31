@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
-import '../payment/waitingconfirm.dart';
-import '../payment/paymentmethod.dart';
+import '../../payment/waitingconfirm.dart';
+import '../../payment/paymentmethod.dart';
 
-class VaBri extends StatefulWidget {
+class VaMandiri extends StatefulWidget {
   final PaymentMethod selectedMethod;
   final String totalPayment;
 
-  VaBri({Key? key, required this.selectedMethod, required this.totalPayment}) : super(key: key);
+  VaMandiri({Key? key, required this.selectedMethod, required this.totalPayment}) : super(key: key);
 
   @override
   _VaBcaState createState() => _VaBcaState();
 }
 
-class _VaBcaState extends State<VaBri> {
+class _VaBcaState extends State<VaMandiri> {
   late String orderId;
 
   @override

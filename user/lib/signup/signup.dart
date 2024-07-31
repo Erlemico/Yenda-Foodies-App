@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../signin/signin.dart'; // Sesuaikan dengan path yang benar
-import '../home/home.dart'; // Sesuaikan dengan path yang benar
+import '../api/apisignup.dart';
+import '../signin/signin.dart';
+import '../home/home.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -12,12 +13,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final ApiSignUp apiService = ApiSignUp();
   bool _animate = false;
 
   @override
   void initState() {
     super.initState();
-    // Delay the animation to start after the screen is built
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {
         _animate = true;
@@ -59,18 +60,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  void _showWarningDialog(String fieldName) {
+  void _showErrorDialog(String message) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: Color(0xFFE00E0F),
           title: Text(
-            'Peringatan',
+            'Error',
             style: TextStyle(color: Colors.white),
           ),
           content: Text(
-            'Field $fieldName tidak boleh kosong!',
+            message,
             style: TextStyle(color: Colors.white),
           ),
           actions: [
@@ -89,40 +90,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  void _validateAndSubmit() {
+  void _validateAndSubmit() async {
     if (usernameController.text.isEmpty ||
         emailController.text.isEmpty ||
         phoneController.text.isEmpty ||
         passwordController.text.isEmpty) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: Color(0xFFE00E0F),
-            title: Text(
-              'Peringatan',
-              style: TextStyle(color: Colors.white),
-            ),
-            content: Text(
-              'Lengkapi semua field terlebih dahulu!',
-              style: TextStyle(color: Colors.white),
-            ),
-            actions: [
-              TextButton(
-                child: Text(
-                  'OK',
-                  style: TextStyle(color: Colors.white),
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
+      _showErrorDialog('Lengkapi semua field terlebih dahulu!');
     } else {
-      _showSuccessDialog();
+      try {
+        final response = await apiService.signUp(
+          usernameController.text,
+          emailController.text,
+          phoneController.text,
+          passwordController.text,
+        );
+        if (response['CustomerID'] != null) { // Assuming a successful sign up returns the CustomerID
+          _showSuccessDialog();
+        } else {
+          _showErrorDialog('Terjadi kesalahan. Silakan coba lagi.');
+        }
+      } catch (e) {
+        _showErrorDialog('Gagal membuat akun. Coba lagi nanti.');
+      }
     }
   }
 
@@ -287,42 +276,37 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 40),
+                      SizedBox(height: 20),
                       ElevatedButton(
-                        onPressed: _validateAndSubmit,
-                        style: ButtonStyle(
-                          backgroundColor: WidgetStateProperty.all<Color>(Color(0xFFE00E0F)),
-                          shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50),
-                            ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xFFE00E0F),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50),
                           ),
-                          padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-                            EdgeInsets.symmetric(vertical: 15),
-                          ),
+                          minimumSize: Size(100, 50),
                         ),
+                        onPressed: _validateAndSubmit,
                         child: Text(
                           'Daftar',
-                          style: TextStyle(color: Colors.white, fontSize: 18),
+                          style: TextStyle(fontSize: 16),
                         ),
                       ),
                       SizedBox(height: 20),
-                      Center(
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(builder: (context) => SignInScreen()),
-                            );
-                          },
-                          child: Text(
-                            'Sudah punya akun? Masuk di sini',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Color(0xFFE00E0F),
-                              fontWeight: FontWeight.bold,
-                            ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => SignInScreen()),
+                          );
+                        },
+                        child: Text(
+                          'Sudah Punya Akun? Masuk',
+                          style: TextStyle(
+                            color: Color(0xFFE00E0F),
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
                           ),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     ],

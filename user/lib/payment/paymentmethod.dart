@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../payment/cash.dart';
-import '../payment/vabca.dart';
-import '../payment/qris.dart';
-import '../payment/vamandiri.dart';
-import '../payment/vabri.dart';
+import '../paymentmethod/cash.dart';
+import '../paymentmethod/vabca.dart';
+import '../paymentmethod/qris.dart';
+import '../paymentmethod/vamandiri.dart';
+import '../paymentmethod/vabri.dart';
 
 class PaymentMethod {
   final String name;

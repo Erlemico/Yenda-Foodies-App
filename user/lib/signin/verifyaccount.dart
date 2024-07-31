@@ -1,95 +1,80 @@
 import 'package:flutter/material.dart';
+import '../api/apiverifyaccount.dart';
 import 'resetpassword.dart';
 
 class VerifyAccount extends StatelessWidget {
   final TextEditingController verificationController = TextEditingController();
+  final ApiVerifyAccount apiVerifyAccount = ApiVerifyAccount();
 
-  void _verifyAccount(BuildContext context) {
-    String username = verificationController.text.trim();
+  Future<void> _verifyAccount(BuildContext context) async {
+    String email = verificationController.text.trim();
 
-    if (username.isEmpty) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Peringatan', style: TextStyle(color: Colors.white)),
-            backgroundColor: Color(0xFFE00E0F),
-            content: Text(
-              'Silakan isi nama pengguna terlebih dahulu!',
-              style: TextStyle(color: Colors.white),
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: Text('OK', style: TextStyle(color: Colors.white)),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
+    if (email.isEmpty) {
+      _showDialog(
+        context,
+        'Peringatan',
+        'Silakan isi email terlebih dahulu!',
       );
-    } else {
-      bool accountExists = checkAccountExists(username); // Ganti dengan logika sesungguhnya
+      return;
+    }
 
-      if (accountExists) {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('Akun Ditemukan', style: TextStyle(color: Colors.white)),
-              backgroundColor: Color(0xFFE00E0F),
-              content: Text(
-                'Akun dengan nama pengguna $username telah ditemukan.',
-                style: TextStyle(color: Colors.white),
-              ),
-              actions: <Widget>[
-                TextButton(
-                  child: Text('OK', style: TextStyle(color: Colors.white)), // Ubah warna teks menjadi putih
-                  onPressed: () {
-                    Navigator.of(context).pop(); // Tutup dialog
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ResetPassword()), // Navigasi ke halaman OTP reset password
-                    );
-                  },
-                ),
-              ],
+    try {
+      final response = await apiVerifyAccount.verifyEmail(email);
+
+      if (response['success']) {
+        _showDialog(
+          context,
+          'Sukses',
+          response['message'],
+          onOk: () {
+            Navigator.of(context).pop(); // Tutup dialog
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ResetPassword()), // Navigasi ke halaman OTP reset password
             );
           },
         );
       } else {
-        // Jika akun tidak ditemukan, tampilkan dialog peringatan
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('Akun Tidak Ditemukan', style: TextStyle(color: Colors.white)),
-              backgroundColor: Color(0xFFE00E0F),
-              content: Text(
-                'Pastikan akun yang Anda masukkan terdaftar!',
-                style: TextStyle(color: Colors.white),
-              ),
-              actions: <Widget>[
-                TextButton(
-                  child: Text('OK', style: TextStyle(color: Colors.white)), // Ubah warna teks menjadi putih
-                  onPressed: () {
-                    Navigator.of(context).pop(); // Tutup dialog
-                  },
-                ),
-              ],
-            );
-          },
+        _showDialog(
+          context,
+          'Gagal',
+          response['message'],
         );
       }
+    } catch (e) {
+      _showDialog(
+        context,
+        'Error',
+        'Gagal memverifikasi email: $e',
+      );
     }
   }
 
-  bool checkAccountExists(String username) {
-    // Logika sederhana untuk mengecek keberadaan akun
-    // Gantilah dengan logika sesungguhnya (misalnya panggil API atau cek database)
-    // Contoh sederhana: kembalikan nilai true secara acak untuk simulasi
-    return true; // Ubah ini dengan logika sesungguhnya (misalnya panggil API atau cek database)
+  void _showDialog(BuildContext context, String title, String message, {VoidCallback? onOk}) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title, style: TextStyle(color: Colors.white)),
+          backgroundColor: Color(0xFFE00E0F),
+          content: Text(
+            message,
+            style: TextStyle(color: Colors.white),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK', style: TextStyle(color: Colors.white)),
+              onPressed: () {
+                Navigator.of(context).pop(); // Tutup dialog
+                if (onOk != null) {
+                  onOk(); // Jalankan callback jika disediakan
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -156,9 +141,9 @@ class VerifyAccount extends StatelessWidget {
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      SizedBox(height: 8), // Tambahkan jarak yang lebih kecil
+                      SizedBox(height: 8),
                       Text(
-                        'Silakan masukkan nama pengguna terlebih dahulu',
+                        'Silakan masukkan email Anda terlebih dahulu',
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.grey,
@@ -168,11 +153,11 @@ class VerifyAccount extends StatelessWidget {
                       SizedBox(height: 80),
                       TextFormField(
                         controller: verificationController,
-                        keyboardType: TextInputType.text,
+                        keyboardType: TextInputType.emailAddress,
                         cursorColor: const Color(0xFFE00E0F),
                         showCursor: true,
                         decoration: InputDecoration(
-                          labelText: 'Nama Pengguna',
+                          labelText: 'Email',
                           labelStyle: TextStyle(color: const Color(0xFFE00E0F)),
                           fillColor: Colors.white,
                           filled: true,
@@ -214,7 +199,7 @@ class VerifyAccount extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          'Masuk',
+                          'Verifikasi',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import '../welcome/welcome.dart';
-import '../account/editaccount.dart'; // Import the EditProfile screen
+import '../../welcome/welcome.dart';
+import 'editaccount.dart'; // Import the EditProfile screen
 
 class AccountScreen extends StatelessWidget {
-  // Data dummy untuk sementara
   final String userNickname = 'Abe Cekut';
   final String userName = 'dmitriev';
   final String userEmail = 'abecekut17@jkt.com';
@@ -18,7 +17,7 @@ class AccountScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        automaticallyImplyLeading: false, // Menghilangkan back button
+        automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -30,7 +29,7 @@ class AccountScreen extends StatelessWidget {
                 backgroundImage: AssetImage(userPhotoURL), // Gunakan URL gambar profil di sini
                 backgroundColor: Colors.transparent,
               ),
-              SizedBox(height: 12), // Adjust spacing between CircleAvatar and nickname
+              SizedBox(height: 12),
               Text(
                 userNickname,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -81,11 +80,7 @@ class AccountScreen extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          'Edit',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                          'Edit', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white,
                           ),
                         ),
                       ),
@@ -111,12 +106,7 @@ class AccountScreen extends StatelessWidget {
                             side: BorderSide(color: Color(0xFFE00E0F)),
                           ),
                         ),
-                        child: Text(
-                          'Keluar',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                        child: Text('Keluar', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white,
                           ),
                         ),
                       ),
@@ -137,16 +127,11 @@ class AccountScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            label,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          Text(label, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           SizedBox(width: 10),
           Expanded(
-            child: Text(
-              value,
-              style: TextStyle(fontSize: 16),
-              textAlign: TextAlign.right,
+            child: Text(value, style: TextStyle(fontSize: 16), textAlign: TextAlign.right,
             ),
           ),
         ],

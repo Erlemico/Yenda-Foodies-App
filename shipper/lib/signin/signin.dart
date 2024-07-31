@@ -3,6 +3,8 @@ import '../home/dashboard.dart';
 import 'verifyaccount.dart';
 
 class SignInScreen extends StatefulWidget {
+  const SignInScreen({super.key});
+
   
   @override
   _SignInScreenState createState() => _SignInScreenState();
@@ -16,7 +18,6 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   void initState() {
     super.initState();
-    // Delay the animation to start after the screen is built
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {
         _animate = true;
@@ -31,7 +32,7 @@ class _SignInScreenState extends State<SignInScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -45,7 +46,7 @@ class _SignInScreenState extends State<SignInScreen> {
           ),
           
           AnimatedPositioned(
-            duration: Duration(seconds: 1),
+            duration: const Duration(seconds: 1),
             top: _animate ? MediaQuery.of(context).size.height * 0.1 : MediaQuery.of(context).size.height,
             left: 0,
             right: 0,
@@ -73,25 +74,25 @@ class _SignInScreenState extends State<SignInScreen> {
                     children: [
                       const SizedBox(height: 5),
                       AnimatedPositioned(
-                        duration: Duration(seconds: 1),
+                        duration: const Duration(seconds: 1),
                         top: _animate ? MediaQuery.of(context).size.height * 0.03 : -150,
                         left: 0,
                         right: 0,
                         child: Center(
                           child: Image.asset(
-                            'assets/images/logo.png',
+                            'assets/images/img.png',
                             width: 150,
                             height: 150,
                           ),
                         ),
                       ),
                       const SizedBox(height: 20),
-                      Text(
+                      const Text(
                         'Selamat Datang Kembali!',
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-                          color: const Color(0xFFE00E0F),
+                          color: Color(0xFFE00E0F),
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -103,29 +104,29 @@ class _SignInScreenState extends State<SignInScreen> {
                         showCursor: true,
                         decoration: InputDecoration(
                           labelText: 'Masukkan Nama Pengguna',
-                          labelStyle: TextStyle(color: const Color(0xFFE00E0F)),
+                          labelStyle: const TextStyle(color: Color(0xFFE00E0F)),
                           fillColor: Colors.white,
                           filled: true,
-                          contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(50),
-                            borderSide: BorderSide(color: const Color(0xFFE00E0F), width: 1.5),
+                            borderSide: const BorderSide(color: Color(0xFFE00E0F), width: 1.5),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(50),
-                            borderSide: BorderSide(color: const Color(0xFFE00E0F), width: 1.5),
+                            borderSide: const BorderSide(color: Color(0xFFE00E0F), width: 1.5),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(50),
-                            borderSide: BorderSide(color: const Color(0xFFE00E0F), width: 2),
+                            borderSide: const BorderSide(color: Color(0xFFE00E0F), width: 2),
                           ),
                           errorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(50),
-                            borderSide: BorderSide(color: Colors.red, width: 1.5),
+                            borderSide: const BorderSide(color: Colors.red, width: 1.5),
                           ),
                           focusedErrorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(50),
-                            borderSide: BorderSide(color: Colors.red, width: 2),
+                            borderSide: const BorderSide(color: Colors.red, width: 2),
                           ),
                         ),
                       ),
@@ -137,29 +138,29 @@ class _SignInScreenState extends State<SignInScreen> {
                         showCursor: true,
                         decoration: InputDecoration(
                           labelText: 'Masukkan Kata Sandi',
-                          labelStyle: TextStyle(color: const Color(0xFFE00E0F)),
+                          labelStyle: const TextStyle(color: Color(0xFFE00E0F)),
                           fillColor: Colors.white,
                           filled: true,
-                          contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(50),
-                            borderSide: BorderSide(color: const Color(0xFFE00E0F), width: 1.5),
+                            borderSide: const BorderSide(color: Color(0xFFE00E0F), width: 1.5),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(50),
-                            borderSide: BorderSide(color: const Color(0xFFE00E0F), width: 1.5),
+                            borderSide: const BorderSide(color: Color(0xFFE00E0F), width: 1.5),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(50),
-                            borderSide: BorderSide(color: const Color(0xFFE00E0F), width: 2),
+                            borderSide: const BorderSide(color: Color(0xFFE00E0F), width: 2),
                           ),
                           errorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(50),
-                            borderSide: BorderSide(color: Colors.red, width: 1.5),
+                            borderSide: const BorderSide(color: Colors.red, width: 1.5),
                           ),
                           focusedErrorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(50),
-                            borderSide: BorderSide(color: Colors.red, width: 2),
+                            borderSide: const BorderSide(color: Colors.red, width: 2),
                           ),
                         ),
                       ),
@@ -200,18 +201,18 @@ class _SignInScreenState extends State<SignInScreen> {
                                   context: context,
                                   builder: (BuildContext context) {
                                     return AlertDialog(
-                                      title: Text(
+                                      title: const Text(
                                         'Error',
                                         style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                                       ),
-                                      content: Text(
+                                      content: const Text(
                                         'Masukan Nama Pengguna dan Kata Sandi Terlebih Dahulu',
                                         style: TextStyle(color: Colors.white),
                                       ),
                                       backgroundColor: const Color(0xFFE00E0F),
                                       actions: <Widget>[
                                         TextButton(
-                                          child: Text(
+                                          child: const Text(
                                             'OK',
                                             style: TextStyle(color: Colors.white),
                                           ),
@@ -224,17 +225,15 @@ class _SignInScreenState extends State<SignInScreen> {
                                   },
                                 );
                               } else {
-                                // Simulasi sign in berhasil
-                                // Navigasi ke halaman HomeScreen setelah sign in berhasil
                                 Navigator.pushReplacement(
                                   context,
-                                  MaterialPageRoute(builder: (context) => Dashboard()),
+                                  MaterialPageRoute(builder: (context) => const Dashboard()),
                                 );
                               }
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFE00E0F),
-                              minimumSize: Size(275, 20),
+                              minimumSize: const Size(275, 20),
                               padding: const EdgeInsets.symmetric(vertical: 12),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(50),
@@ -253,7 +252,6 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                    
                     ],
                   ),
                 ),

@@ -6,7 +6,7 @@ import '../account/account.dart';
 
 class Dashboard extends StatefulWidget {
   final int initialIndex;
-  const Dashboard({this.initialIndex = 0});
+  const Dashboard({super.key, this.initialIndex = 0});
 
   @override
   _DashboardState createState() => _DashboardState();
@@ -21,8 +21,8 @@ class _DashboardState extends State<Dashboard> {
     });
   }
 
-  static List<Widget> _widgetOptions = <Widget>[
-    Beranda(),
+  static final List<Widget> _widgetOptions = <Widget>[
+    const Beranda(),
     Pengiriman(),
     Account(),
   ];
@@ -48,10 +48,10 @@ class _DashboardState extends State<Dashboard> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Color(0xFFE00E0F),
-        unselectedItemColor: Color(0xFF838E9E),
+        selectedItemColor: const Color(0xFFE00E0F),
+        unselectedItemColor: const Color(0xFF838E9E),
         onTap: _onItemTapped,
-        selectedLabelStyle: TextStyle(color: Color(0xFFE00E0F)),
+        selectedLabelStyle: const TextStyle(color: Color(0xFFE00E0F)),
         backgroundColor: Colors.white,
       ),
     );
@@ -59,14 +59,16 @@ class _DashboardState extends State<Dashboard> {
 }
 
 class Beranda extends StatelessWidget {
+  const Beranda({super.key});
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(20.0),
+          const Padding(
+            padding: EdgeInsets.all(20.0),
             child: Text(
               'Beranda',
               style: TextStyle(
@@ -76,19 +78,19 @@ class Beranda extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.all(20),
-            padding: EdgeInsets.all(20),
+            margin: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             width: 372,
             height: 150,
             decoration: BoxDecoration(
-              color: Color(0xFFE11A1A),
+              color: const Color(0xFFE11A1A),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Row(
+            child: const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Icon(Icons.local_shipping, size: 80, color: Color(0xFFFFFFFF)),
-                SizedBox(width: 10), // Jarak antara icon dan teks
+                SizedBox(width: 10),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,8 +110,8 @@ class Beranda extends StatelessWidget {
           ),
           Container(
             alignment: Alignment.centerLeft,
-            padding: EdgeInsets.only(left: 20, top: 20), // Ubah padding top menjadi 20
-            child: Text(
+            padding: const EdgeInsets.only(left: 20, top: 20), // Ubah padding top menjadi 20
+            child: const Text(
               'Pengiriman',
               style: TextStyle(
                 fontSize: 24,
@@ -118,9 +120,9 @@ class Beranda extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           
-          ShippingItem(
+          const ShippingItem(
             orderId: '#1201241215',
             time: '14:00',
             date: 'Selasa, 3 Juli 2024',
@@ -142,11 +144,11 @@ class ShippingItem extends StatelessWidget {
   final int quantity;
   final double price;
 
-  ShippingItem({
+  const ShippingItem({super.key, 
     required this.orderId,
     required this.time,
     required this.date,
-    required this.status, // Initialize status
+    required this.status,
     required this.quantity,
     required this.price,
   });
@@ -158,7 +160,7 @@ class ShippingItem extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
       width: MediaQuery.of(context).size.width,
       height: 180, // Increased height to accommodate status row
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
@@ -179,13 +181,13 @@ class ShippingItem extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: Image.asset(
-                  'assets/images/rendangdaging.png',
+                  'assets/images/menu/sidedish/rendangdaging.png',
                   width: 80,
                   height: 100,
                   fit: BoxFit.cover,
                 ),
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Expanded( // Expanded to occupy the remaining space
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -195,15 +197,15 @@ class ShippingItem extends StatelessWidget {
                       children: <Widget>[
                         Text(
                           'Order ID: $orderId',
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                         ),
                         Text(
                           time,
-                          style: TextStyle(fontSize: 14),
+                          style: const TextStyle(fontSize: 14),
                         ),
                       ],
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -220,7 +222,7 @@ class ShippingItem extends StatelessWidget {
                                   ? Colors.blue
                                   : status == 'Pesanan Selesai'
                                       ? Colors.green
-                                      : Color(0xFFE00E0F),
+                                      : const Color(0xFFE00E0F),
                             ),
 
                             Text(
@@ -231,7 +233,7 @@ class ShippingItem extends StatelessWidget {
                                     ? Colors.blue
                                     : status == 'Pesanan Selesai'
                                         ? Colors.green
-                                        : Color(0xFFE00E0F),
+                                        : const Color(0xFFE00E0F),
                               ),
                             ),
 
@@ -239,17 +241,17 @@ class ShippingItem extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text(
                           'Qty: $quantity',
-                          style: TextStyle(fontSize: 14),
+                          style: const TextStyle(fontSize: 14),
                         ),
                         Text(
                           formatCurrency.format(price),
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                         ),
                       ],
                     ),
@@ -258,7 +260,7 @@ class ShippingItem extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 10), // Jarak antara informasi dan tombol
+          const SizedBox(height: 10), // Jarak antara informasi dan tombol
           Center(
             child: ElevatedButton(
               onPressed: () {
@@ -277,12 +279,12 @@ class ShippingItem extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFFE00E0F),
+                backgroundColor: const Color(0xFFE00E0F),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50),
                 ),
               ),
-              child: Text(
+              child: const Text(
                 'Detail',
                 style: TextStyle(color: Colors.white),
               ),

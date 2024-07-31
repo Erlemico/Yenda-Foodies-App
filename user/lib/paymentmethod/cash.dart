@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
-import '../payment/waitingconfirm.dart';
-import '../payment/paymentmethod.dart';
 
-class VaMandiri extends StatefulWidget {
+import '../payment/paymentmethod.dart';
+import '../payment/waitingconfirm.dart';
+
+class Cash extends StatefulWidget {
   final PaymentMethod selectedMethod;
   final String totalPayment;
 
-  VaMandiri({Key? key, required this.selectedMethod, required this.totalPayment}) : super(key: key);
+  Cash({Key? key, required this.selectedMethod, required this.totalPayment}) : super(key: key);
 
   @override
-  _VaBcaState createState() => _VaBcaState();
+  _CashState createState() => _CashState();
 }
 
-class _VaBcaState extends State<VaMandiri> {
+class _CashState extends State<Cash> {
   late String orderId;
 
   @override
@@ -85,34 +86,11 @@ class _VaBcaState extends State<VaMandiri> {
             SizedBox(height: 16.0),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: TextField(
-                decoration: InputDecoration(
-                  labelText: 'No. Rekening',
-                  border: OutlineInputBorder(),
-                  suffixIcon: InkWell(
-                    onTap: () {
-                      // Handle copy action
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: Text(
-                        'Salin',
-                        style: TextStyle(
-                          fontSize: 12.0,
-                          color: Colors.green,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                readOnly: true,
-                controller: TextEditingController(text: '125 000 000 000'),
-              ),
             ),
             SizedBox(height: 16.0),
             Center(
               child: Text(
-                'Dicek dalam 10 menit setelah pembayaran dilakukan',
+                'Mohon sediakan uang pas',
                 style: TextStyle(
                   fontSize: 12.0,
                   color: Color(0xFFE00E0F),
@@ -123,7 +101,7 @@ class _VaBcaState extends State<VaMandiri> {
             SizedBox(height: 8.0),
             Center(
               child: Text(
-                'Bayar pesanan ke Virtual Account di atas sebelum melewati masa pembayaran 10 menit setelah membuat pesanan',
+                'Karena kalo pas lebih nyaman',
                 style: TextStyle(
                   fontSize: 12.0,
                   color: Colors.black,

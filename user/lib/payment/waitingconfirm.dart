@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import '../payment/confirmed.dart';
-import 'paymentinfo.dart';
+import '../payment/paymentinfo.dart';
 
 class WaitingConfirm extends StatefulWidget {
   final String orderId;

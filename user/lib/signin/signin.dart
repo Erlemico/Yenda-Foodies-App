@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../home/home.dart';
 import '../signup/signup.dart';
 import '../signin/verifyaccount.dart';
+import '../api/apisignin.dart'; // Import class untuk API
 
 class SignInScreen extends StatefulWidget {
   @override
@@ -16,12 +17,38 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   void initState() {
     super.initState();
-    // Delay the animation to start after the screen is built
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {
         _animate = true;
       });
     });
+  }
+
+  Future<void> _signIn() async {
+    String phoneNumber = phoneNumberController.text.trim();
+    String password = passwordController.text.trim();
+
+    if (phoneNumber.isEmpty && password.isEmpty) {
+      _showErrorDialog('Nomor Telepon dan Kata Sandi');
+    } else if (phoneNumber.isEmpty) {
+      _showErrorDialog('Nomor Telepon');
+    } else if (password.isEmpty) {
+      _showErrorDialog('Kata Sandi');
+    } else {
+      try {
+        final response = await ApiSignIn().signIn(phoneNumber, password);
+        if (response['status'] == true) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => HomeScreen()),
+          );
+        } else {
+          _showErrorDialog('Kredensial tidak valid');
+        }
+      } catch (e) {
+        _showErrorDialog('Terjadi kesalahan: $e');
+      }
+    }
   }
 
   @override
@@ -175,32 +202,14 @@ class _SignInScreenState extends State<SignInScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 90), // Adjust the height as needed
+                      const SizedBox(height: 90),
                       Align(
                         alignment: Alignment.center,
                         child: SizedBox(
                           width: 275,
                           height: 50,
                           child: ElevatedButton(
-                            onPressed: () {
-                              // Validate phone number and password
-                              String phoneNumber = phoneNumberController.text.trim();
-                              String password = passwordController.text.trim();
-
-                              if (phoneNumber.isEmpty && password.isEmpty) {
-                                _showErrorDialog('Nomor Telepon dan Kata Sandi');
-                              } else if (phoneNumber.isEmpty) {
-                                _showErrorDialog('Nomor Telepon');
-                              } else if (password.isEmpty) {
-                                _showErrorDialog('Kata Sandi');
-                              } else {
-                                // Simulate successful sign in
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => HomeScreen()),
-                                );
-                              }
-                            },
+                            onPressed: _signIn,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFE00E0F),
                               minimumSize: Size(275, 20),
@@ -268,24 +277,18 @@ class _SignInScreenState extends State<SignInScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(
-            'Error',
-            style: TextStyle(color: Colors.white),
-          ),
-          content: Text(
-            'Isi dulu $field!',
-            style: TextStyle(color: Colors.white),
-          ),
-          backgroundColor: const Color(0xFFE00E0F),
-          actions: <Widget>[
+          backgroundColor: Color(0xFFE00E0F),
+          title: Text('Kesalahan',
+            style: TextStyle(color: Colors.white)),
+          content: Text('Harap masukkan $field',
+            style: TextStyle(color: Colors.white)),
+          actions: [
             TextButton(
-              child: Text(
-                'OK',
-                style: TextStyle(color: Colors.white),
-              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
+              child: Text('OK',
+            style: TextStyle(color: Colors.white)),
             ),
           ],
         );

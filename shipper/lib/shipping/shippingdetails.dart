@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:homemenu/home/dashboard.dart';
+import '../home/dashboard.dart';
 import 'package:intl/intl.dart';
 
 class DetailPengiriman extends StatelessWidget {
@@ -10,7 +10,7 @@ class DetailPengiriman extends StatelessWidget {
   final int quantity;
   final double price;
 
-  DetailPengiriman({
+  const DetailPengiriman({super.key, 
     required this.orderId,
     required this.time,
     required this.date,
@@ -23,9 +23,10 @@ class DetailPengiriman extends StatelessWidget {
   Widget build(BuildContext context) {
     final formatCurrency = NumberFormat.currency(locale: 'id_ID', symbol: 'Rp', decimalDigits: 0);
     return Scaffold(
+      backgroundColor:  Colors.white,
       appBar: AppBar(
-        title: Text('Detail Pengiriman', style: TextStyle(fontWeight: FontWeight.bold)),
-        backgroundColor: Color(0xFFFFFFFF),
+        title: const Text('Detail Pengiriman', style: TextStyle(fontWeight: FontWeight.bold)),
+        backgroundColor:  Colors.white,
         centerTitle: true,
       ),
       body: Padding(
@@ -35,35 +36,33 @@ class DetailPengiriman extends StatelessWidget {
           children: <Widget>[
             Row(
               children: [
-                Text('Order ID:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-                SizedBox(width: 10),
+                const Text('Order ID:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                const SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    '$orderId',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    orderId,
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     textAlign: TextAlign.right,
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 10),
-
+            const SizedBox(height: 10),
             Row(
               children: [
-                Text('Tanggal:', style: TextStyle(fontSize: 16)),
-                SizedBox(width: 10),
+                const Text('Tanggal:', style: TextStyle(fontSize: 16)),
+                const SizedBox(width: 10),
                 Expanded(
                   child: Text(
                     '$date $time',
-                    style: TextStyle(fontSize: 16),
+                    style: const TextStyle(fontSize: 16),
                     textAlign: TextAlign.right,
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 10),
-
-            Row(
+            const SizedBox(height: 10),
+            const Row(
               children: [
                 Expanded(
                   child: Text(
@@ -80,9 +79,8 @@ class DetailPengiriman extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 10),
-
-            Row(
+            const SizedBox(height: 10),
+            const Row(
               children: [
                 Expanded(
                   child: Text(
@@ -99,9 +97,8 @@ class DetailPengiriman extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 10),
-
-            Row(
+            const SizedBox(height: 10),
+            const Row(
               children: [
                 Expanded(
                   child: Text(
@@ -118,25 +115,22 @@ class DetailPengiriman extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 10),
-
+            const SizedBox(height: 10),
             Row(
               children: [
-                Text('Status:', style: TextStyle(fontSize: 16)),
-                SizedBox(width: 10),
+                const Text('Status:', style: TextStyle(fontSize: 16)),
+                const SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    '$status',
-                    style: TextStyle(fontSize: 16),
+                    status,
+                    style: const TextStyle(fontSize: 16),
                     textAlign: TextAlign.right,
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 20),
-
-            Text('Pesanan:', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-
+            const SizedBox(height: 20),
+            const Text('Pesanan:', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
               width: MediaQuery.of(context).size.width,
@@ -152,62 +146,62 @@ class DetailPengiriman extends StatelessWidget {
                   ),
                 ],
               ),
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image.asset(
-                      'assets/images/rendangdaging.png',
+                      'assets/images/menu/sidedish/rendangdaging.png',
                       width: 90,
                       height: 100,
                       fit: BoxFit.cover,
                     ),
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text('Rendang', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18)),
-                      Text(formatCurrency.format(17000), style: TextStyle(color: Color(0xFFE00E0F), fontWeight: FontWeight.bold, fontSize: 18)),
-                      Text('2x', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18)),
+                      const Text('Rendang', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18)),
+                      Text(formatCurrency.format(17000), style: const TextStyle(color: Color(0xFFE00E0F), fontWeight: FontWeight.bold, fontSize: 18)),
+                      const Text('2x', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18)),
                     ],
                   ),
                 ],
               ),
             ),
 
-            SizedBox(height: 17),
-            Divider(
+            const SizedBox(height: 17),
+            const Divider(
               color: Colors.black,
               thickness: 1,
               indent: 15,
               endIndent: 15,
             ),
 
-            SizedBox(height: 2),
+            const SizedBox(height: 2),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text(
+                  const Text(
                     'Total:',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   Text(
                     formatCurrency.format(24000),
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
                   ),
                 ],
               ),
             ),
 
-            SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+            const SizedBox(height: 10),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
               child: Center(
                 child: Text(
                   'Status Pengiriman:',
@@ -216,7 +210,7 @@ class DetailPengiriman extends StatelessWidget {
               ),
             ),
 
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -229,26 +223,26 @@ class DetailPengiriman extends StatelessWidget {
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              backgroundColor: Color(0XFFF0F0F0),
-                              title: Text(
+                              backgroundColor: const Color(0xFFE00E0F),
+                              title: const Text(
                                 'Konfirmasi',
                                 style: TextStyle(
-                                  color: Colors.black,
+                                  color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              content: Text(
+                              content: const Text(
                                 'Apakah Anda ingin menyelesaikan pengiriman?', 
                                 style: TextStyle(
-                                        color: Colors.black,
+                                        color: Colors.white,
                                       ),
                               ),
                               actions: <Widget>[
                                 TextButton(
-                                  child: Text(
+                                  child: const Text(
                                     'Tidak',
                                     style: TextStyle(
-                                      color: Colors.black,
+                                      color: Colors.white,
                                       
                                     ),
                                   ),
@@ -257,10 +251,10 @@ class DetailPengiriman extends StatelessWidget {
                                   },
                                 ),
                                 TextButton(
-                                  child: Text(
+                                  child: const Text(
                                     'Ya',
                                     style: TextStyle(
-                                      color: Colors.black,
+                                      color: Colors.white,
                                       
                                     ),
                                   ),
@@ -268,10 +262,10 @@ class DetailPengiriman extends StatelessWidget {
                                     Navigator.of(context).pop();
                                     Navigator.pushReplacement(
                                       context,
-                                      MaterialPageRoute(builder: (context) => Dashboard(initialIndex: 1)),
+                                      MaterialPageRoute(builder: (context) => const Dashboard(initialIndex: 1)),
                                     );
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
+                                      const SnackBar(
                                         content: Text('Pengiriman telah diselesaikan'),
                                       ),
                                     );
@@ -283,9 +277,9 @@ class DetailPengiriman extends StatelessWidget {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF1A8A07),
+                        backgroundColor: const Color(0xFF1A8A07),
                       ),
-                      child: Text(
+                      child: const Text(
                         'Selesaikan Pengiriman',
                         style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold),
                       ),
@@ -301,26 +295,26 @@ class DetailPengiriman extends StatelessWidget {
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              backgroundColor: Color(0xFFF0F0F0),
-                              title: Text(
+                              backgroundColor: const Color(0xFFE00E0F),
+                              title: const Text(
                                 'Konfirmasi',
                                 style: TextStyle(
-                                  color: Colors.black,
+                                  color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              content: Text(
+                              content: const Text(
                                 'Apakah Anda ingin membatalkan pengiriman?', 
                                 style: TextStyle(
-                                        color: Colors.black,
+                                        color: Colors.white,
                                       ),
                               ),
                               actions: <Widget>[
                                 TextButton(
-                                  child: Text(
+                                  child: const Text(
                                     'Tidak',
                                     style: TextStyle(
-                                      color: Colors.black,
+                                      color: Colors.white,
                                       
                                     ),
                                   ),
@@ -329,10 +323,10 @@ class DetailPengiriman extends StatelessWidget {
                                   },
                                 ),
                                 TextButton(
-                                  child: Text(
+                                  child: const Text(
                                     'Ya',
                                     style: TextStyle(
-                                      color: Colors.black,
+                                      color: Colors.white,
                                       
                                     ),
                                   ),
@@ -340,10 +334,10 @@ class DetailPengiriman extends StatelessWidget {
                                     Navigator.of(context).pop();
                                     Navigator.pushReplacement(
                                       context,
-                                      MaterialPageRoute(builder: (context) => Dashboard(initialIndex: 1)),
+                                      MaterialPageRoute(builder: (context) => const Dashboard(initialIndex: 1)),
                                     );
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
+                                      const SnackBar(
                                         content: Text('Pengiriman telah dibatalkan'),
                                       ),
                                     );
@@ -355,9 +349,9 @@ class DetailPengiriman extends StatelessWidget {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFFE00E0F),
+                        backgroundColor: const Color(0xFFE00E0F),
                       ),
-                      child: Text(
+                      child: const Text(
                         'Batalkan Pengiriman',
                         style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold),
                       ),

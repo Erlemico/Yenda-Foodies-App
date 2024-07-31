@@ -13,8 +13,9 @@ class ProductScreen extends StatefulWidget {
 
 class _ProductScreenState extends State<ProductScreen> with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  String _searchText = ""; // State untuk menyimpan teks pencarian
+  String _searchText = "";
   TextEditingController _searchController = TextEditingController();
+  
 
   // Daftar produk
   final List<Map<String, dynamic>> _product = [
@@ -179,7 +180,7 @@ class _ProductScreenState extends State<ProductScreen> with SingleTickerProvider
       'description': 'Paket nasi ayam bakar dengan perkedel dan terong teri.',
       'category': 'Paket'
     },
-     {
+    {
       'image': 'assets/images/menu/package/paketnasiayampopterongteri.png',
       'name': 'Paket Nasi Ayam Pop-Terong Teri',
       'price': '26.000',
@@ -256,7 +257,6 @@ class _ProductScreenState extends State<ProductScreen> with SingleTickerProvider
       'description': 'Udang balado kami diolah dengan bumbu balado yang kaya dan menggugah selera. Rasakan kesegaran dan kelezatan udang dalam balado khas kami!',
       'category': 'Lauk'
     },
-
   ];
 
   // Menyusun item berdasarkan kategori
