@@ -14,8 +14,7 @@ class ProductDetailScreen extends StatefulWidget {
     required this.image,
     required this.itemName,
     required this.itemDescription,
-    required this.itemPrice,
-  });
+    required this.itemPrice,});
 
   @override
   _ProductDetailScreenState createState() => _ProductDetailScreenState();

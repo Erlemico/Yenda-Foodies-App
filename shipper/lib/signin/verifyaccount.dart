@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'resetpassword.dart'; // Sesuaikan dengan path halaman OTP reset password
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'resetpassword.dart';
 
 class VerifyAccount extends StatelessWidget {
   final TextEditingController verificationController = TextEditingController();
 
-  void _verifyAccount(BuildContext context) {
-    String username = verificationController.text.trim(); // Ambil nilai dari TextField
+  Future<void> _verifyAccount(BuildContext context) async {
+    String email = verificationController.text.trim();
 
-    if (username.isEmpty) {
-      // Jika nama pengguna kosong, tampilkan dialog peringatan
+    if (email.isEmpty) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -16,14 +17,14 @@ class VerifyAccount extends StatelessWidget {
             title: const Text('Peringatan', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
             backgroundColor: const Color(0xFFE00E0F),
             content: const Text(
-              'Silakan isi nama pengguna terlebih dahulu!',
+              'Silakan isi email terlebih dahulu!',
               style: TextStyle(color: Colors.white),
             ),
             actions: <Widget>[
               TextButton(
-                child: const Text('OK', style: TextStyle(color: Colors.white)), // Ubah warna teks menjadi putih
+                child: const Text('OK', style: TextStyle(color: Colors.white)),
                 onPressed: () {
-                  Navigator.of(context).pop(); // Tutup dialog
+                  Navigator.of(context).pop();
                 },
               ),
             ],
@@ -31,11 +32,18 @@ class VerifyAccount extends StatelessWidget {
         },
       );
     } else {
-      // Jika nama pengguna tidak kosong, lanjutkan verifikasi
-      bool accountExists = checkAccountExists(username); // Ganti dengan logika sesungguhnya
+      final response = await http.post(
+        Uri.parse('http://localhost:8000/api/staff/forgot-password/verify-email'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'Email': email,
+        }),
+      );
 
-      if (accountExists) {
-        // Jika akun ditemukan, tampilkan dialog sukses dan navigasi ke OTP reset password
+      if (response.statusCode == 200) {
+        // If the server returns an OK response, show success dialog and navigate to reset password screen
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -43,17 +51,17 @@ class VerifyAccount extends StatelessWidget {
               title: const Text('Akun Ditemukan', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
               backgroundColor: const Color(0xFFE00E0F),
               content: Text(
-                'Akun dengan nama pengguna $username telah ditemukan.',
+                'Akun dengan email $email telah ditemukan.',
                 style: const TextStyle(color: Colors.white),
               ),
               actions: <Widget>[
                 TextButton(
-                  child: const Text('OK', style: TextStyle(color: Colors.white)), // Ubah warna teks menjadi putih
+                  child: const Text('OK', style: TextStyle(color: Colors.white)),
                   onPressed: () {
-                    Navigator.of(context).pop(); // Tutup dialog
+                    Navigator.of(context).pop();
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ResetPassword()), // Navigasi ke halaman OTP reset password
+                      MaterialPageRoute(builder: (context) => ResetPassword()),
                     );
                   },
                 ),
@@ -62,7 +70,7 @@ class VerifyAccount extends StatelessWidget {
           },
         );
       } else {
-        // Jika akun tidak ditemukan, tampilkan dialog peringatan
+        // If the server returns an error response, show error dialog
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -70,14 +78,14 @@ class VerifyAccount extends StatelessWidget {
               title: const Text('Akun Tidak Ditemukan', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
               backgroundColor: const Color(0xFFE00E0F),
               content: const Text(
-                'Pastikan akun yang Anda masukkan terdaftar!',
+                'Pastikan email yang Anda masukkan terdaftar!',
                 style: TextStyle(color: Colors.white),
               ),
               actions: <Widget>[
                 TextButton(
-                  child: const Text('OK', style: TextStyle(color: Colors.white)), // Ubah warna teks menjadi putih
+                  child: const Text('OK', style: TextStyle(color: Colors.white)),
                   onPressed: () {
-                    Navigator.of(context).pop(); // Tutup dialog
+                    Navigator.of(context).pop();
                   },
                 ),
               ],
@@ -86,13 +94,6 @@ class VerifyAccount extends StatelessWidget {
         );
       }
     }
-  }
-
-  bool checkAccountExists(String username) {
-    // Logika sederhana untuk mengecek keberadaan akun
-    // Gantilah dengan logika sesungguhnya (misalnya panggil API atau cek database)
-    // Contoh sederhana: kembalikan nilai true secara acak untuk simulasi
-    return true; // Ubah ini dengan logika sesungguhnya (misalnya panggil API atau cek database)
   }
 
   @override
@@ -136,12 +137,7 @@ class VerifyAccount extends StatelessWidget {
               height: 400,
               decoration: const BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                  bottomLeft: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
-                ),
+                borderRadius: BorderRadius.all(Radius.circular(20)),
               ),
               child: SingleChildScrollView(
                 child: Container(
@@ -161,9 +157,9 @@ class VerifyAccount extends StatelessWidget {
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      const SizedBox(height: 8), // Tambahkan jarak yang lebih kecil
+                      const SizedBox(height: 8),
                       const Text(
-                        'Silakan masukkan nama pengguna terlebih dahulu',
+                        'Silakan masukkan email terlebih dahulu',
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.grey,
@@ -173,11 +169,11 @@ class VerifyAccount extends StatelessWidget {
                       const SizedBox(height: 80),
                       TextFormField(
                         controller: verificationController,
-                        keyboardType: TextInputType.text,
+                        keyboardType: TextInputType.emailAddress,
                         cursorColor: const Color(0xFFE00E0F),
                         showCursor: true,
                         decoration: InputDecoration(
-                          labelText: 'Nama Pengguna',
+                          labelText: 'Email',
                           labelStyle: const TextStyle(color: Color(0xFFE00E0F)),
                           fillColor: Colors.white,
                           filled: true,
@@ -208,7 +204,7 @@ class VerifyAccount extends StatelessWidget {
                       Center(
                         child: ElevatedButton(
                           onPressed: () {
-                            _verifyAccount(context); // Panggil metode verifikasi saat tombol ditekan
+                            _verifyAccount(context); // Call verification method on button press
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFFE00E0F),

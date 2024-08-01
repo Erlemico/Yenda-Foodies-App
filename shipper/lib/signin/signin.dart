@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import '../home/dashboard.dart';
 import 'verifyaccount.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
 
-  
   @override
   _SignInScreenState createState() => _SignInScreenState();
 }
@@ -23,6 +24,83 @@ class _SignInScreenState extends State<SignInScreen> {
         _animate = true;
       });
     });
+  }
+
+  Future<void> _signIn() async {
+    const String url = 'http://localhost:8000/api/staff/signin'; // Ganti dengan URL API Anda
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'StaffName': phoneNumberController.text.trim(),
+        'Password': passwordController.text.trim(),
+      }),
+    );
+
+    final Map<String, dynamic> responseData = jsonDecode(response.body);
+
+    if (response.statusCode == 200 && responseData['success'] == true) {
+      if (responseData['Level'] == 'SHIPPER') {
+        _getShipperData(responseData['StaffID']);
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const Dashboard()),
+        );
+      }
+    } else {
+      _showErrorDialog(responseData['message'] ?? 'Terjadi kesalahan');
+    }
+  }
+
+  Future<void> _getShipperData(String staffID) async {
+    const String url = 'http://localhost:8000/api/shipper/data'; // Ganti dengan URL API Anda
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'StaffID': staffID}),
+    );
+
+    final Map<String, dynamic> responseData = jsonDecode(response.body);
+
+    if (response.statusCode == 200 && responseData['status'] == true) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const Dashboard()), // Ganti dengan halaman yang sesuai
+      );
+    } else {
+      _showErrorDialog(responseData['message'] ?? 'Terjadi kesalahan');
+    }
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text(
+            'Error',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          content: Text(
+            message,
+            style: const TextStyle(color: Colors.white),
+          ),
+          backgroundColor: const Color(0xFFE00E0F),
+          actions: <Widget>[
+            TextButton(
+              child: const Text(
+                'OK',
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -44,7 +122,6 @@ class _SignInScreenState extends State<SignInScreen> {
           Container(
             color: const Color(0xFFE00E0F),
           ),
-          
           AnimatedPositioned(
             duration: const Duration(seconds: 1),
             top: _animate ? MediaQuery.of(context).size.height * 0.1 : MediaQuery.of(context).size.height,
@@ -53,211 +130,164 @@ class _SignInScreenState extends State<SignInScreen> {
             child: Align(
               alignment: Alignment.center,
               child: Container(
-              width: 430,
-              height: 550,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                  bottomLeft: Radius.circular(20),
-                  bottomRight: Radius.circular(20)
+                width: 430,
+                height: 550,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
                 ),
-              ),
-              child: SingleChildScrollView(
-                child: Container(
-                  width: double.infinity,
-                  color: Colors.transparent,
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      const SizedBox(height: 5),
-                      AnimatedPositioned(
-                        duration: const Duration(seconds: 1),
-                        top: _animate ? MediaQuery.of(context).size.height * 0.03 : -150,
-                        left: 0,
-                        right: 0,
-                        child: Center(
-                          child: Image.asset(
-                            'assets/images/img.png',
-                            width: 150,
-                            height: 150,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      const Text(
-                        'Selamat Datang Kembali!',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFFE00E0F),
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 20),
-                      TextFormField(
-                        controller: phoneNumberController,
-                        keyboardType: TextInputType.phone,
-                        cursorColor: const Color(0xFFE00E0F),
-                        showCursor: true,
-                        decoration: InputDecoration(
-                          labelText: 'Masukkan Nama Pengguna',
-                          labelStyle: const TextStyle(color: Color(0xFFE00E0F)),
-                          fillColor: Colors.white,
-                          filled: true,
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(50),
-                            borderSide: const BorderSide(color: Color(0xFFE00E0F), width: 1.5),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(50),
-                            borderSide: const BorderSide(color: Color(0xFFE00E0F), width: 1.5),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(50),
-                            borderSide: const BorderSide(color: Color(0xFFE00E0F), width: 2),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(50),
-                            borderSide: const BorderSide(color: Colors.red, width: 1.5),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(50),
-                            borderSide: const BorderSide(color: Colors.red, width: 2),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      TextFormField(
-                        controller: passwordController,
-                        obscureText: true,
-                        cursorColor: const Color(0xFFE00E0F),
-                        showCursor: true,
-                        decoration: InputDecoration(
-                          labelText: 'Masukkan Kata Sandi',
-                          labelStyle: const TextStyle(color: Color(0xFFE00E0F)),
-                          fillColor: Colors.white,
-                          filled: true,
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(50),
-                            borderSide: const BorderSide(color: Color(0xFFE00E0F), width: 1.5),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(50),
-                            borderSide: const BorderSide(color: Color(0xFFE00E0F), width: 1.5),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(50),
-                            borderSide: const BorderSide(color: Color(0xFFE00E0F), width: 2),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(50),
-                            borderSide: const BorderSide(color: Colors.red, width: 1.5),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(50),
-                            borderSide: const BorderSide(color: Colors.red, width: 2),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => VerifyAccount()),
-                            );
-                          },
-                          child: const Text(
-                            'Lupa Kata Sandi?',
-                            style: TextStyle(
-                              color: Color(0xFFE00E0F),
-                              fontWeight: FontWeight.bold,
+                child: SingleChildScrollView(
+                  child: Container(
+                    width: double.infinity,
+                    color: Colors.transparent,
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const SizedBox(height: 5),
+                        AnimatedPositioned(
+                          duration: const Duration(seconds: 1),
+                          top: _animate ? MediaQuery.of(context).size.height * 0.03 : -150,
+                          left: 0,
+                          right: 0,
+                          child: Center(
+                            child: Image.asset(
+                              'assets/images/img.png',
+                              width: 150,
+                              height: 150,
                             ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 50), // Adjust the height as needed
-                      Align(
-                        alignment: Alignment.center,
-                        child: SizedBox(
-                          width: 275,
-                          height: 50,
-                          child: ElevatedButton(
+                        const SizedBox(height: 20),
+                        const Text(
+                          'Selamat Datang Kembali!',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFFE00E0F),
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 20),
+                        TextFormField(
+                          controller: phoneNumberController,
+                          keyboardType: TextInputType.phone,
+                          cursorColor: const Color(0xFFE00E0F),
+                          showCursor: true,
+                          decoration: InputDecoration(
+                            labelText: 'Masukkan Nama Pengguna',
+                            labelStyle: const TextStyle(color: Color(0xFFE00E0F)),
+                            fillColor: Colors.white,
+                            filled: true,
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(50),
+                              borderSide: const BorderSide(color: Color(0xFFE00E0F), width: 1.5),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(50),
+                              borderSide: const BorderSide(color: Color(0xFFE00E0F), width: 1.5),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(50),
+                              borderSide: const BorderSide(color: Color(0xFFE00E0F), width: 2),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(50),
+                              borderSide: const BorderSide(color: Colors.red, width: 1.5),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(50),
+                              borderSide: const BorderSide(color: Colors.red, width: 2),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        TextFormField(
+                          controller: passwordController,
+                          obscureText: true,
+                          cursorColor: const Color(0xFFE00E0F),
+                          showCursor: true,
+                          decoration: InputDecoration(
+                            labelText: 'Masukkan Kata Sandi',
+                            labelStyle: const TextStyle(color: Color(0xFFE00E0F)),
+                            fillColor: Colors.white,
+                            filled: true,
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(50),
+                              borderSide: const BorderSide(color: Color(0xFFE00E0F), width: 1.5),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(50),
+                              borderSide: const BorderSide(color: Color(0xFFE00E0F), width: 1.5),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(50),
+                              borderSide: const BorderSide(color: Color(0xFFE00E0F), width: 2),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(50),
+                              borderSide: const BorderSide(color: Colors.red, width: 1.5),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(50),
+                              borderSide: const BorderSide(color: Colors.red, width: 2),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: TextButton(
                             onPressed: () {
-                              // Validasi nomor telepon dan password
-                              String phoneNumber = phoneNumberController.text.trim();
-                              String password = passwordController.text.trim();
-
-                              if (phoneNumber.isEmpty || password.isEmpty) {
-                                // Menampilkan pesan error jika ada field yang kosong
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: const Text(
-                                        'Error',
-                                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                                      ),
-                                      content: const Text(
-                                        'Masukan Nama Pengguna dan Kata Sandi Terlebih Dahulu',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      backgroundColor: const Color(0xFFE00E0F),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          child: const Text(
-                                            'OK',
-                                            style: TextStyle(color: Colors.white),
-                                          ),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              } else {
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => const Dashboard()),
-                                );
-                              }
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => VerifyAccount()),
+                              );
                             },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFFE00E0F),
-                              minimumSize: const Size(275, 20),
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50),
-                                side: const BorderSide(color: Color(0xFFE00E0F)),
-                              ),
-                            ),
                             child: const Text(
-                              'Masuk',
+                              'Lupa Kata Sandi?',
                               style: TextStyle(
-                                fontSize: 18,
+                                color: Color(0xFFE00E0F),
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white,
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 10),
-                    ],
+                        const SizedBox(height: 50),
+                        Align(
+                          alignment: Alignment.center,
+                          child: SizedBox(
+                            width: 275,
+                            height: 50,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                _signIn(); // Call the sign-in function
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFFE00E0F),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
+                              ),
+                              child: const Text(
+                                'Masuk',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
           ),
         ],
       ),

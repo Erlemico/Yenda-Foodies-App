@@ -10,6 +10,8 @@ class Account extends StatelessWidget {
   final String userAddress = 'Jl. Chuuya No. 17, Yokohama';
   final String userPhotoURL = 'assets/images/dazee.jpg';
 
+  const Account({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,12 +31,12 @@ class Account extends StatelessWidget {
                 backgroundImage: AssetImage(userPhotoURL), // Gunakan URL gambar profil di sini
                 backgroundColor: Colors.transparent,
               ),
-              SizedBox(height: 12), // Adjust spacing between CircleAvatar and nickname
+              const SizedBox(height: 12), // Adjust spacing between CircleAvatar and nickname
               Text(
                 userNickname,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Column(
@@ -47,7 +49,7 @@ class Account extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 50),
+              const SizedBox(height: 50),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -72,14 +74,14 @@ class Account extends StatelessWidget {
                           );
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFFE00E0F), // Warna tombol Edit
-                          padding: EdgeInsets.symmetric(vertical: 12),
+                          backgroundColor: const Color(0xFFE00E0F), // Warna tombol Edit
+                          padding: const EdgeInsets.symmetric(vertical: 12),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
-                            side: BorderSide(color: Color(0xFFE00E0F)),
+                            side: const BorderSide(color: Color(0xFFE00E0F)),
                           ),
                         ),
-                        child: Text(
+                        child: const Text(
                           'Edit',
                           style: TextStyle(
                             fontSize: 18,
@@ -90,7 +92,7 @@ class Account extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
                   Center(
                     child: SizedBox(
                       width: 200, // Set the width of the button
@@ -99,18 +101,18 @@ class Account extends StatelessWidget {
                           // Aksi sign out
                           Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(builder: (context) => SignInScreen()),
+                            MaterialPageRoute(builder: (context) => const SignInScreen()),
                           );
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFFE00E0F), // Warna tombol Sign Out
-                          padding: EdgeInsets.symmetric(vertical: 12),
+                          backgroundColor: const Color(0xFFE00E0F), // Warna tombol Sign Out
+                          padding: const EdgeInsets.symmetric(vertical: 12),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
-                            side: BorderSide(color: Color(0xFFE00E0F)),
+                            side: const BorderSide(color: Color(0xFFE00E0F)),
                           ),
                         ),
-                        child: Text(
+                        child: const Text(
                           'Keluar',
                           style: TextStyle(
                             fontSize: 18,
@@ -138,13 +140,13 @@ class Account extends StatelessWidget {
         children: [
           Text(
             label,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           Expanded(
             child: Text(
               value,
-              style: TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 16),
               textAlign: TextAlign.right,
             ),
           ),

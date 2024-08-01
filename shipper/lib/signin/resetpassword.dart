@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import '../home/dashboard.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import '../home/dashboard.dart'; // Update with your actual import path
 
 class ResetPassword extends StatelessWidget {
+  final TextEditingController emailController = TextEditingController();
   final TextEditingController newPasswordController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
 
@@ -39,18 +42,15 @@ class ResetPassword extends StatelessWidget {
           ),
           AnimatedPositioned(
             duration: const Duration(seconds: 0),
-            top: (MediaQuery.of(context).size.height - 300) / 2,  // Center vertically
+            top: (MediaQuery.of(context).size.height - 400) / 2,  // Center vertically
             left: (MediaQuery.of(context).size.width - 430) / 2,  // Center horizontally
             child: Container(
               width: 430,
-              height: 400,
+              height: 500,
               decoration: const BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                  bottomLeft: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(20),
                 ),
               ),
               child: SingleChildScrollView(
@@ -74,12 +74,48 @@ class ResetPassword extends StatelessWidget {
                         textAlign: TextAlign.center,
                         text: const TextSpan(
                           style: TextStyle(
-                            color: Colors.grey, // Gray color
+                            color: Colors.grey,
                             fontSize: 16,
                           ),
                           children: [
-                            TextSpan(text: 'Masukkan kata sandi baru'),
+                            TextSpan(text: 'Masukkan email dan kata sandi baru'),
                           ],
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: InputDecoration(
+                          labelText: 'Email',
+                          labelStyle: const TextStyle(color: Color(0xFFE00E0F)),
+                          fillColor: Colors.white,
+                          filled: true,
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 25, vertical: 15),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(50),
+                            borderSide:
+                                const BorderSide(color: Color(0xFFE00E0F), width: 1.5),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(50),
+                            borderSide:
+                                const BorderSide(color: Color(0xFFE00E0F), width: 1.5),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(50),
+                            borderSide:
+                                const BorderSide(color: Color(0xFFE00E0F), width: 2),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(50),
+                            borderSide: const BorderSide(color: Colors.red, width: 1.5),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(50),
+                            borderSide: const BorderSide(color: Colors.red, width: 2),
+                          ),
                         ),
                       ),
                       const SizedBox(height: 16),
@@ -159,19 +195,15 @@ class ResetPassword extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 30),
-                      const SizedBox(
-                        height: 40,
-                      ),
                       Center(
                         child: ElevatedButton(
-                          onPressed: () {
-                            // Implement reset password logic here
+                          onPressed: () async {
+                            String email = emailController.text.trim();
                             String newPassword = newPasswordController.text.trim();
-                            String confirmPassword =
-                                confirmPasswordController.text.trim();
+                            String confirmPassword = confirmPasswordController.text.trim();
 
-                            if (newPassword.isEmpty || confirmPassword.isEmpty) {
-                              // Handle empty fields (optional)
+                            if (email.isEmpty || newPassword.isEmpty || confirmPassword.isEmpty) {
+                              // Handle empty fields
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -181,7 +213,7 @@ class ResetPassword extends StatelessWidget {
                                       style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                                     ),
                                     content: const Text(
-                                      'Masukan kata sandi baru terlebih dahulu',
+                                      'Semua kolom harus diisi',
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     backgroundColor: const Color(0xFFE00E0F),
@@ -200,7 +232,7 @@ class ResetPassword extends StatelessWidget {
                                 },
                               );
                             } else if (newPassword != confirmPassword) {
-                              // Handle password mismatch (optional)
+                              // Handle password mismatch
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -229,59 +261,66 @@ class ResetPassword extends StatelessWidget {
                                 },
                               );
                             } else {
-                              // Password reset successful (simulate success)
-                              // Show success dialog
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: const Text(
-                                      'Berhasil',
-                                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                                    ),
-                                    content: const Text(
-                                      'Kata sandi Anda berhasil diubah',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                    backgroundColor: const Color(0xFFE00E0F),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        child: const Text(
-                                          'OK',
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                        onPressed: () {
-                                          Navigator.of(context).pop(); // Close success dialog
-                                          Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => const Dashboard(), // Navigate to home screen
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ],
-                                  );
+                              // Password reset logic
+                              final response = await http.post(
+                                Uri.parse('http://localhost:8000/api/staff/forgot-password/reset-password'),
+                                headers: <String, String>{
+                                  'Content-Type': 'application/json; charset=UTF-8',
                                 },
+                                body: jsonEncode(<String, String>{
+                                  'email': email,
+                                  'new_password': newPassword,
+                                  'confirm_password': confirmPassword,
+                                }),
                               );
+
+                              if (response.statusCode == 200) {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const Dashboard()),
+                                );
+                              } else {
+                                // Handle error
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: const Text(
+                                        'Error',
+                                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                      ),
+                                      content: Text(
+                                        jsonDecode(response.body)['message'] ?? 'Terjadi kesalahan',
+                                        style: const TextStyle(color: Colors.white),
+                                      ),
+                                      backgroundColor: const Color(0xFFE00E0F),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: const Text(
+                                            'OK',
+                                            style: TextStyle(color: Colors.white),
+                                          ),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              }
                             }
                           },
                           style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(100, 50),
                             backgroundColor: const Color(0xFFE00E0F),
-                            minimumSize: const Size(200, 20),  // Adjusted width to be smaller
-                            padding: const EdgeInsets.symmetric(vertical: 12),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50),
-                              side: const BorderSide(color: Color(0xFFE00E0F)),
                             ),
                           ),
                           child: const Text(
-                            'Simpan',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
+                            'Kirim',
+                            style: TextStyle(fontSize: 18, color: Colors.white),
                           ),
                         ),
                       ),
