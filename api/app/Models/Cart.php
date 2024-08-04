@@ -9,9 +9,9 @@ class Cart extends Model
 {
     use HasFactory;
 
-    protected $table = 'cart';
+    protected $table = 'Cart';
     protected $primaryKey = 'CartID';
-    public $incrementing = true; // Karena CartID adalah auto increment
+    public $incrementing = true;
     protected $keyType = 'int';
 
     protected $fillable = [

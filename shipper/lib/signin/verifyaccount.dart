@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'resetpassword.dart';
+import 'package:http/http.dart' as http;//untuk import dependencies http yang ada di file pubspec.yaml agar dapat digunakan untuk digunakannya API
+import 'dart:convert';//untuk mengkonversi bentuk response ke dalam JSON
+import 'resetpassword.dart';//untuk navigasi ke halaman reset password
 
+//untuk mendefinisikan class verifyaccount 
 class VerifyAccount extends StatelessWidget {
   final TextEditingController verificationController = TextEditingController();
 
@@ -43,7 +44,6 @@ class VerifyAccount extends StatelessWidget {
       );
 
       if (response.statusCode == 200) {
-        // If the server returns an OK response, show success dialog and navigate to reset password screen
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -70,7 +70,6 @@ class VerifyAccount extends StatelessWidget {
           },
         );
       } else {
-        // If the server returns an error response, show error dialog
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -130,8 +129,8 @@ class VerifyAccount extends StatelessWidget {
           ),
           AnimatedPositioned(
             duration: const Duration(seconds: 0),
-            top: (MediaQuery.of(context).size.height - 300) / 2,  // Center vertically
-            left: (MediaQuery.of(context).size.width - 430) / 2,  // Center horizontally
+            top: (MediaQuery.of(context).size.height - 300) / 2,
+            left: (MediaQuery.of(context).size.width - 430) / 2,
             child: Container(
               width: 430,
               height: 400,
@@ -204,7 +203,8 @@ class VerifyAccount extends StatelessWidget {
                       Center(
                         child: ElevatedButton(
                           onPressed: () {
-                            _verifyAccount(context); // Call verification method on button press
+                            _verifyAccount(context);
+                            
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFFE00E0F),

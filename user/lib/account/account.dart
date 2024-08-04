@@ -3,10 +3,10 @@ import '../../welcome/welcome.dart';
 import 'editaccount.dart'; // Import the EditProfile screen
 
 class AccountScreen extends StatelessWidget {
-  final String userNickname = 'Abe Cekut';
-  final String userName = 'dmitriev';
-  final String userEmail = 'abecekut17@jkt.com';
-  final String userPhone = '+6287839628754';
+  final String userNickname = 'Mico';
+  final String userName = '21e8dfd2-3207-4cbd-bbb0-e36f81b589aa';
+  final String userEmail = 'erlemico@yahoo.com';
+  final String userPhone = '086950927591';
   final String userAddress = 'Jl. Rambutan No. 17, Jakarta';
   final String userPhotoURL = 'assets/images/abe.jpg'; // Example photo URL
 
@@ -40,7 +40,7 @@ class AccountScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildUserDetail('Nama', userName),
+                    _buildUserDetail('ID', userName),
                     _buildUserDetail('Email', userEmail),
                     _buildUserDetail('No. Telepon', userPhone),
                     _buildUserDetail('Alamat', userAddress),

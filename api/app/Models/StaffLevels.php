@@ -9,16 +9,15 @@ class StaffLevels extends Model
 {
     use HasFactory;
 
-    protected $table = 'StaffLevels'; // Sesuaikan dengan nama tabel yang Anda buat
+    protected $table = 'StaffLevels';
 
-    protected $primaryKey = 'Level'; // Tentukan primary key sesuai dengan kolom yang Anda tentukan sebagai primary key
+    protected $primaryKey = 'Level';
 
-    public $incrementing = false; // Jika primary key bukan incrementing integer, atur false
+    public $incrementing = false;
 
     protected $fillable = [
         'Level',
         'JobDesk',
     ];
 
-    // Relasi atau metode tambahan dapat ditambahkan di sini
 }

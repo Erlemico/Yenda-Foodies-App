@@ -139,14 +139,5 @@ Route::get('/total-products-sold', [ProductsController::class, 'getTotalProducts
 // Rute untuk mendapatkan total pembayaran
 Route::get('/total-payment', [ProductsController::class, 'getTotalPayment']);
 
-// Rute untuk mendapatkan semua riwayat pesanan
-Route::get('/order-history', [OrdersController::class, 'getAllOrderHistory']);
-
 // Rute untuk mendapatkan riwayat pesanan berdasarkan StaffID
 Route::get('/order-history/{StaffID}', [OrdersController::class, 'getOrderHistoryByStaffID']);
-
-// Rute untuk mendapatkan riwayat pesanan dengan StatusCode = DELIVERED
-Route::get('/delivered-order-history', [OrdersController::class, 'getDeliveredOrderHistory']);
-
-// Rute untuk mendapatkan riwayat pesanan berdasarkan metode pembayaran
-Route::get('/order-history/{PaymentMethod}', [OrdersController::class, 'getOrderHistoryByPaymentMethod']);

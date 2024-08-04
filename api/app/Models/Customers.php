@@ -9,13 +9,13 @@ class Customers extends Model
 {
     use HasFactory;
 
-    protected $table = 'Customers'; // Sesuaikan dengan nama tabel yang Anda buat
+    protected $table = 'Customers';
 
-    protected $primaryKey = 'CustomerID'; // Tentukan primary key sesuai dengan kolom yang Anda tentukan sebagai primary key
+    protected $primaryKey = 'CustomerID';
 
-    protected $keyType = 'string'; // Tentukan tipe dari primary key, misalnya string atau UUID
+    protected $keyType = 'string';
 
-    public $incrementing = false; // Jika primary key bukan incrementing integer, atur false
+    public $incrementing = false;
 
     protected $fillable = [
         'CustomerID',

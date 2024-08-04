@@ -9,13 +9,13 @@ class Staff extends Model
 {
     use HasFactory;
 
-    protected $table = 'Staff'; // Sesuaikan dengan nama tabel yang Anda buat
+    protected $table = 'Staff';
 
-    protected $primaryKey = 'StaffID'; // Tentukan primary key sesuai dengan kolom yang Anda tentukan sebagai primary key
+    protected $primaryKey = 'StaffID';
 
-    protected $keyType = 'string'; // Tentukan tipe dari primary key, misalnya string atau UUID
+    protected $keyType = 'string';
 
-    public $incrementing = false; // Jika primary key bukan incrementing integer, atur false
+    public $incrementing = false;
 
     protected $fillable = [
         'StaffID',

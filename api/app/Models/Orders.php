@@ -9,7 +9,7 @@ class Orders extends Model
 {
     use HasFactory;
 
-    protected $table = 'orders';
+    protected $table = 'Orders';
     protected $primaryKey = 'OrderID';
     public $incrementing = false; // Karena OrderID adalah UUID
     protected $keyType = 'string';
@@ -19,13 +19,11 @@ class Orders extends Model
         'StaffID',
         'CustomerID',
         'StatusCode',
-        'PaymentID',
         'OrderDate',
         'TotalOrder',
         'TotalAmount',
         'DeliveryAddress',
         'Shipper',
-        'PaymentID',
     ];
 
     public function staff()
@@ -48,9 +46,8 @@ class Orders extends Model
         return $this->belongsTo(Staff::class, 'Shipper');
     }
 
-    public function payment()
+    public function orderDetails()
     {
-        return $this->belongsTo(Payments::class, 'PaymentID');
+        return $this->hasMany(OrderDetails::class, 'OrderID', 'OrderID');
     }
-
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import '../home/dashboard.dart'; // Update with your actual import path
+import '../home/dashboard.dart';
 
 class ResetPassword extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
@@ -42,8 +42,8 @@ class ResetPassword extends StatelessWidget {
           ),
           AnimatedPositioned(
             duration: const Duration(seconds: 0),
-            top: (MediaQuery.of(context).size.height - 400) / 2,  // Center vertically
-            left: (MediaQuery.of(context).size.width - 430) / 2,  // Center horizontally
+            top: (MediaQuery.of(context).size.height - 400) / 2,
+            left: (MediaQuery.of(context).size.width - 430) / 2,
             child: Container(
               width: 430,
               height: 500,
@@ -232,7 +232,6 @@ class ResetPassword extends StatelessWidget {
                                 },
                               );
                             } else if (newPassword != confirmPassword) {
-                              // Handle password mismatch
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -280,7 +279,6 @@ class ResetPassword extends StatelessWidget {
                                   MaterialPageRoute(builder: (context) => const Dashboard()),
                                 );
                               } else {
-                                // Handle error
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {

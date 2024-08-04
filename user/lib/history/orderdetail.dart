@@ -145,9 +145,7 @@ class OrderDetail extends StatelessWidget {
               ],
             ),
             SizedBox(height: 20),
-
             Text('Pesanan:', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
               width: MediaQuery.of(context).size.width,
@@ -170,7 +168,7 @@ class OrderDetail extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image.asset(
-                      'assets/images/rendangdaging.png',
+                      'assets/images/menu/sidedish/rendangdaging.png',
                       width: 90,
                       height: 100,
                       fit: BoxFit.cover,

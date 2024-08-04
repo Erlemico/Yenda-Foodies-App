@@ -9,9 +9,9 @@ class Tracking extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'TrackingID'; // Set primary key
-    protected $keyType = 'string'; // Primary key type
-    public $incrementing = false; // Disable auto-increment
+    protected $primaryKey = 'TrackingID';
+    protected $keyType = 'string';
+    public $incrementing = false;
 
     protected $fillable = [
         'TrackingID',
@@ -24,7 +24,6 @@ class Tracking extends Model
         'Longitude'
     ];
 
-    // Define the relationship with Order
     public function order()
     {
         return $this->belongsTo(Orders::class, 'OrderID', 'OrderID');

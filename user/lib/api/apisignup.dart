@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiSignUp {
-  final String baseUrl = 'http://localhost:8000/api/customers/signup'; // Ganti dengan URL API Anda
+  final String baseUrl = 'http://localhost:8000/api/customers/signup';
 
   Future<Map<String, dynamic>> signUp(String customerName, String email, String numberPhone, String password) async {
     final response = await http.post(

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Orders;
-use Illuminate\Support\Facades\DB;
 
 class OrdersController extends Controller
 {
@@ -15,7 +14,7 @@ class OrdersController extends Controller
 
         // Hitung total pembayaran dari semua pesanan
         $totalPayment = $orders->sum(function ($order) {
-            return $order->total_payment; // Gantilah 'total_payment' dengan nama field yang sesuai di model Orders
+            return $order->Total; // Gantilah 'total_payment' dengan nama field yang sesuai di model Orders
         });
 
         return response()->json([
@@ -233,45 +232,6 @@ class OrdersController extends Controller
         'data' => $orderHistory
     ], 200);
 }
-
-    public function getDeliveredOrderHistory()
-    {
-        // Ambil semua pesanan dengan StatusCode = DELIVERED beserta detailnya
-        $orders = Orders::with('orderDetails')
-            ->where('StatusCode', 'DELIVERED')
-            ->get();
-
-        // Hitung total jumlah pesanan yang dikirim
-        $totalDeliveredCount = $orders->count();
-
-        // Siapkan respons dengan data riwayat pesanan
-        $orderHistory = $orders->map(function($order) {
-            return [
-                'OrderID' => $order->OrderID,
-                'OrderDate' => $order->OrderDate,
-                'TotalAmount' => $order->orderDetails->sum(function($detail) {
-                    return $detail->Quantity * $detail->UnitPrice;
-                }),
-                'StatusCode' => $order->StatusCode,
-                'Details' => $order->orderDetails->map(function($detail) {
-                    return [
-                        'ProductID' => $detail->ProductID,
-                        'ProductName' => $detail->ProductName,
-                        'Quantity' => $detail->Quantity,
-                        'UnitPrice' => $detail->UnitPrice,
-                        'Notes' => $detail->Notes
-                    ];
-                })
-            ];
-        });
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Riwayat pesanan dengan StatusCode DELIVERED berhasil ditemukan',
-            'totalDeliveredCount' => $totalDeliveredCount, // Total count pesanan yang dikirim
-            'data' => $orderHistory
-        ], 200);
-    }
 
     public function getOrderHistoryByPaymentMethod($paymentMethod)
 {

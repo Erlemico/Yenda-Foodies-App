@@ -15,7 +15,6 @@ return new class extends Migration
             $table->string('TrackingID')->primary();
             $table->uuid('OrderID')->nullable();
             $table->string('Location')->nullable();
-            $table->string('Status')->nullable();
             $table->text('Remarks')->nullable();
             $table->timestamp('TrackDate')->useCurrent();
             $table->decimal('Latitude', 10, 6)->nullable();

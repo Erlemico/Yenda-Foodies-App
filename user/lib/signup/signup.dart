@@ -280,15 +280,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xFFE00E0F),
+                          minimumSize: Size(100, 50),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(50),
                           ),
-                          minimumSize: Size(100, 50),
+                          
                         ),
                         onPressed: _validateAndSubmit,
                         child: Text(
                           'Daftar',
-                          style: TextStyle(fontSize: 16),
+                          style: TextStyle(fontSize: 16, color: Colors.white),
                         ),
                       ),
                       SizedBox(height: 20),

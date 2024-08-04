@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import '../home/dashboard.dart';
-import 'verifyaccount.dart';
+import 'package:flutter/material.dart'; 
+import 'package:http/http.dart' as http; //untuk import dependencies http yang ada di file pubspec.yaml agar dapat digunakan untuk digunakannya API
+import 'dart:convert'; //untuk mengkonversi bentuk response ke dalam JSON
+import '../home/dashboard.dart'; //untuk navigasi kehalaman dashboard
+import 'verifyaccount.dart'; //untuk navigasi ke halaman verifikasi akun ketika lupa password
 
+//untuk mendefinisikan class signin
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
 
@@ -13,7 +14,7 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController phoneNumberController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController(); //digunakan untuk mengisi textfield pada halaman signin
   bool _animate = false;
 
   @override
@@ -26,8 +27,9 @@ class _SignInScreenState extends State<SignInScreen> {
     });
   }
 
+  //untuk mendefinisikan URL API pada signin staff
   Future<void> _signIn() async {
-    const String url = 'http://localhost:8000/api/staff/signin'; // Ganti dengan URL API Anda
+    const String url = 'http://localhost:8000/api/staff/signin';
     final response = await http.post(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -53,8 +55,9 @@ class _SignInScreenState extends State<SignInScreen> {
     }
   }
 
+  //untuk chechking level staff yang melakukan signin
   Future<void> _getShipperData(String staffID) async {
-    const String url = 'http://localhost:8000/api/shipper/data'; // Ganti dengan URL API Anda
+    const String url = 'http://localhost:8000/api/shipper/data'; 
     final response = await http.post(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -66,13 +69,14 @@ class _SignInScreenState extends State<SignInScreen> {
     if (response.statusCode == 200 && responseData['status'] == true) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const Dashboard()), // Ganti dengan halaman yang sesuai
+        MaterialPageRoute(builder: (context) => const Dashboard()),
       );
     } else {
       _showErrorDialog(responseData['message'] ?? 'Terjadi kesalahan');
     }
   }
 
+  //untuk menampilkan pop up notifikasi ketika terjadi error
   void _showErrorDialog(String message) {
     showDialog(
       context: context,
@@ -103,6 +107,7 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
+  //untuk user interface pada halaman signin
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -263,7 +268,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             height: 50,
                             child: ElevatedButton(
                               onPressed: () {
-                                _signIn(); // Call the sign-in function
+                                _signIn();
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFFE00E0F),

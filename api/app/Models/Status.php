@@ -9,18 +9,17 @@ class Status extends Model
 {
     use HasFactory;
 
-    protected $table = 'Status'; // Sesuaikan dengan nama tabel yang Anda buat
+    protected $table = 'Status';
 
-    protected $primaryKey = 'StatusCode'; // Tentukan primary key sesuai dengan kolom yang Anda tentukan sebagai primary key
+    protected $primaryKey = 'StatusCode';
 
-    public $incrementing = false; // Jika primary key bukan incrementing integer, atur false
+    public $incrementing = false;
 
     protected $fillable = [
         'StatusCode',
         'Description',
     ];
 
-    public $timestamps = false; // Nonaktifkan timestamps jika tabel tidak memiliki kolom created_at dan updated_at
+    public $timestamps = false;
 
-    // Metode atau relasi-relasi tambahan bisa ditambahkan di sini
 }

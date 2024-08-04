@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import '../signin/signin.dart';
+import '../signin/signin.dart'; //untuk navigasi ke halaman signin yang ada dalam folder signin
 
+//class splashscreen untuk mendefinisikan class dari splash yang terdiri dari widget berisi image splash untuk dan akan
+//langsung mengarahkan ke halaman signin
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
@@ -14,12 +16,12 @@ class SplashScreen extends StatelessWidget {
     });
 
     return Scaffold(
-      backgroundColor: Colors.white, // Set the background color to white
+      backgroundColor: Colors.white,
       body: Center(
         child: Image.asset(
           'assets/images/splash.png',
-          width: 400, // Set the width as per your requirement
-          height: 400, // Set the height as per your requirement
+          width: 400,
+          height: 400,
         ),
       ),
     );

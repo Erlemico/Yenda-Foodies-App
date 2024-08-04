@@ -9,11 +9,11 @@ class Products extends Model
 {
     use HasFactory;
 
-    protected $table = 'Products'; // Sesuaikan dengan nama tabel yang Anda buat
+    protected $table = 'Products';
 
-    protected $primaryKey = 'ProductID'; // Tentukan primary key sesuai dengan kolom yang Anda tentukan sebagai primary key
+    protected $primaryKey = 'ProductID';
 
-    public $incrementing = false; // Jika primary key bukan incrementing integer, atur false
+    public $incrementing = false;
 
     protected $fillable = [
         'ProductID',

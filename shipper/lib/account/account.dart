@@ -15,11 +15,11 @@ class Account extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // Background putih untuk Scaffold
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        automaticallyImplyLeading: false, // Menghilangkan back button
+        automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -28,10 +28,10 @@ class Account extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 80,
-                backgroundImage: AssetImage(userPhotoURL), // Gunakan URL gambar profil di sini
+                backgroundImage: AssetImage(userPhotoURL),
                 backgroundColor: Colors.transparent,
               ),
-              const SizedBox(height: 12), // Adjust spacing between CircleAvatar and nickname
+              const SizedBox(height: 12),
               Text(
                 userNickname,
                 style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -55,7 +55,7 @@ class Account extends StatelessWidget {
                 children: [
                   Center(
                     child: SizedBox(
-                      width: 200, // Set the width of the button
+                      width: 200,
                       child: ElevatedButton(
                         onPressed: () {
                           // Aksi edit
@@ -68,13 +68,13 @@ class Account extends StatelessWidget {
                                 userEmail: userEmail,
                                 userPhone: userPhone,
                                 userAddress: userAddress,
-                                userPhotoURL: userPhotoURL, // Kirim URL gambar profil
+                                userPhotoURL: userPhotoURL,
                               ),
                             ),
                           );
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFFE00E0F), // Warna tombol Edit
+                          backgroundColor: const Color(0xFFE00E0F),
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
@@ -95,7 +95,7 @@ class Account extends StatelessWidget {
                   const SizedBox(height: 12),
                   Center(
                     child: SizedBox(
-                      width: 200, // Set the width of the button
+                      width: 200,
                       child: ElevatedButton(
                         onPressed: () {
                           // Aksi sign out
@@ -105,7 +105,7 @@ class Account extends StatelessWidget {
                           );
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFFE00E0F), // Warna tombol Sign Out
+                          backgroundColor: const Color(0xFFE00E0F),
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),

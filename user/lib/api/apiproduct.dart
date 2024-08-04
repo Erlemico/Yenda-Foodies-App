@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class ApiProductService {
+class ApiProduct {
   final String baseUrl = 'http://localhost:8000/api/products-by-name';
 
   Future<List<Map<String, dynamic>>> fetchMenuItems() async {
@@ -20,7 +20,7 @@ class ApiProductService {
           };
         }).toList();
       } else {
-        throw Exception('Failed to load products');
+        throw Exception('Failed to load products: ${data['message']}');
       }
     } else {
       throw Exception('Failed to load products');

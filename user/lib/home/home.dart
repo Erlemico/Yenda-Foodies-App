@@ -124,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
         ),
-        SizedBox(height: 16.0),
+        SizedBox(height: 10.0),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Row(
@@ -265,7 +265,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
-                'Halo, Kirana!',
+                'Halo, Mico!',
                 style: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
               ),
             ),

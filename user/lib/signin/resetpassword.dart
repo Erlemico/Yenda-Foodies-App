@@ -341,7 +341,7 @@ class ResetPassword extends StatelessWidget {
                           backgroundColor: const Color(0xFFE00E0F),
                         ),
                         child: Text(
-                          'Reset Kata Sandi',
+                          'Ubah Kata Sandi',
                           style: TextStyle(fontSize: 18, color: Colors.white),
                         ),
                       ),

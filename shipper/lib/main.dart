@@ -1,10 +1,12 @@
-import 'package:flutter/material.dart';
-import 'screen/splash.dart';
+import 'package:flutter/material.dart'; //untuk memanggil segala material user interface dalam dart
+import 'screen/splash.dart'; //untuk memanggil halaman splash yang ada dalam folder screen
 
+//void main untuk titik awal memanggil aplikasi
 void main() {
   runApp(MyApp());
 }
 
+//class Myapp terdapat beralih kehalaman splash
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -16,7 +18,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: SplashScreen(),
-      debugShowCheckedModeBanner: false, // Menghilangkan label debug
+      debugShowCheckedModeBanner: false,
     );
   }
 }

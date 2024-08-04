@@ -9,16 +9,15 @@ class Categories extends Model
 {
     use HasFactory;
 
-    protected $table = 'Categories'; // Sesuaikan dengan nama tabel yang Anda buat
+    protected $table = 'Categories';
 
-    protected $primaryKey = 'CategoryID'; // Tentukan primary key sesuai dengan kolom yang Anda tentukan sebagai primary key
+    protected $primaryKey = 'CategoryID';
 
-    public $incrementing = false; // Jika primary key bukan incrementing integer, atur false
+    public $incrementing = false;
 
     protected $fillable = [
         'CategoryID',
         'Description',
     ];
 
-    // Relasi atau metode tambahan dapat ditambahkan di sini
 }

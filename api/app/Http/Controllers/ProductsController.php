@@ -13,12 +13,10 @@ class ProductsController extends Controller
     {
         // Mengurutkan produk berdasarkan ProductID secara asc
         $products = Products::orderBy('ProductID', 'asc')->get();
-        $totalProducts = $products->count(); // Hitung jumlah total produk
 
         return response()->json([
             'status' => true,
             'message' => 'Produk tersedia',
-            'total' => $totalProducts, // Tambahkan jumlah total produk
             'data' => $products
         ], 200);
     }
@@ -130,12 +128,12 @@ class ProductsController extends Controller
 
     public function getMenuItems()
     {
-        // Daftar ID produk yang diinginkan
+        // ProductID yang diinginkan
         $productIDs = ['RMF023', 'RMF008', 'RMF010', 'RMF015', 'RMF014', 'RMF004'];
 
-        // Ambil produk berdasarkan ID dan pilih kolom yang diperlukan
+        // Berdasarkan ProductID dan kolom yang diperlukan
         $products = Products::whereIn('ProductID', $productIDs)
-            ->get(['ImageProduct', 'ProductName', 'UnitPrice', 'Description']); // Pilih kolom yang diinginkan
+            ->get(['ImageProduct', 'ProductName', 'UnitPrice', 'Description']);
 
         return response()->json([
             'status' => true,
@@ -189,9 +187,9 @@ class ProductsController extends Controller
 
     public function getAllProducts()
     {
-        // Ambil semua produk dari tabel Products, urutkan berdasarkan ProductName, dan pilih kolom yang diperlukan
+        // Semua produk dari tabel Products, diurutkan berdasarkan ProductName, dan kolom yang diperlukan
         $products = Products::orderBy('ProductName', 'asc')
-            ->get(['ImageProduct', 'ProductName', 'UnitPrice', 'Description', 'Category']);
+            ->get(['ProductID', 'ImageProduct', 'ProductName', 'UnitPrice', 'Description']);
 
         return response()->json([
             'status' => true,

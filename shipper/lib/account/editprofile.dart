@@ -6,15 +6,15 @@ class EditProfile extends StatefulWidget {
   final String userEmail;
   final String userPhone;
   final String userAddress;
-  final String userPhotoURL; // Tambahkan variabel untuk URL gambar profil
+  final String userPhotoURL;
 
-  EditProfile({
+  const EditProfile({super.key, 
     required this.userNickname,
     required this.userName,
     required this.userEmail,
     required this.userPhone,
     required this.userAddress,
-    required this.userPhotoURL, // Terima URL gambar profil dari AccountScreen
+    required this.userPhotoURL,
   });
 
   @override
@@ -48,29 +48,23 @@ class _EditProfileState extends State<EditProfile> {
 
   void _saveProfile() {
     if (_formKey.currentState!.validate()) {
-      // Save profile changes
-      // Implement your save logic here
       String updatedNickname = _nicknameController.text;
       String updatedPhone = _phoneController.text;
       String updatedEmail = _emailController.text;
       String updatedAddress = _addressController.text;
 
-      // Navigate back to previous screen
       Navigator.pop(context);
     }
   }
 
   void _editProfilePhoto() {
-    // Implement logic to edit profile photo
-    // This function will be triggered when the edit photo area is tapped
     print('Edit profile photo');
-    // Add your code to edit the profile photo here
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // Set background color to white
+      backgroundColor: Colors.white,
       extendBodyBehindAppBar: true,
       body: SingleChildScrollView(
         child: Padding(
@@ -81,7 +75,7 @@ class _EditProfileState extends State<EditProfile> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: 20),
-                Center(
+                const Center(
                   child: Text(
                     'Edit',
                     style: TextStyle(
@@ -97,10 +91,10 @@ class _EditProfileState extends State<EditProfile> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
                     child: CircleAvatar(
-                      radius: 80, // Ubah nilai radius menjadi 80 untuk ukuran yang sama
+                      radius: 80,
                       backgroundColor: Colors.grey[200],
-                      backgroundImage: NetworkImage(widget.userPhotoURL), // Gunakan URL gambar profil dari properti widget
-                      child: Icon(
+                      backgroundImage: NetworkImage(widget.userPhotoURL),
+                      child: const Icon(
                         Icons.camera_alt,
                         size: 30,
                         color: Colors.black54,
@@ -152,25 +146,25 @@ class _EditProfileState extends State<EditProfile> {
         keyboardType: keyboardType,
         decoration: InputDecoration(
           labelText: label,
-          labelStyle: TextStyle(color: const Color(0xFFE00E0F)),
+          labelStyle: const TextStyle(color: Color(0xFFE00E0F)),
           fillColor: Colors.white,
           filled: true,
           contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: const Color(0xFFE00E0F), width: 1.5),
+            borderSide: const BorderSide(color: Color(0xFFE00E0F), width: 1.5),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: const Color(0xFFE00E0F), width: 1.5),
+            borderSide: const BorderSide(color: Color(0xFFE00E0F), width: 1.5),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: const Color(0xFFE00E0F), width: 2),
+            borderSide: const BorderSide(color: Color(0xFFE00E0F), width: 2),
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: Colors.red, width: 2),
+            borderSide: const BorderSide(color: Colors.red, width: 2),
           ),
         ),
         validator: (value) {

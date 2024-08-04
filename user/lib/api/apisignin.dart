@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiSignIn {
-  final String apiUrl = 'http://localhost:8000/api/customers/signin'; // Ganti dengan URL API Anda jika diperlukan
+  final String apiUrl = 'http://localhost:8000/api/customers/signin';
 
   Future<Map<String, dynamic>> signIn(String customerName, String password) async {
     final response = await http.post(
@@ -15,9 +15,18 @@ class ApiSignIn {
     );
 
     if (response.statusCode == 200) {
-      return jsonDecode(response.body);
+      final Map<String, dynamic> responseBody = jsonDecode(response.body);
+      if (responseBody['status'] == true) {
+        return {
+          'status': true,
+          'message': responseBody['message'],
+          'customer': responseBody['customer'], // Pastikan respons memiliki struktur ini
+        };
+      } else {
+        throw Exception(responseBody['message'] ?? 'Gagal masuk');
+      }
     } else {
-      throw Exception('Failed to sign in');
+      throw Exception('Gagal masuk');
     }
   }
 }

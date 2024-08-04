@@ -16,46 +16,8 @@ use Illuminate\Support\Str;
 
 class CartController extends Controller
 {
-    // Method untuk menambah produk ke keranjang
-    public function addToCart(Request $request)
-    {
-        // Validasi input
-        $validator = Validator::make($request->all(), [
-            'CustomerID' => 'required|uuid|exists:Customers,CustomerID',
-            'ProductID' => 'required|string|exists:Products,ProductID',
-            'Quantity' => 'required|integer|min:1',
-        ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
-        }
-
-        // Ambil ID pelanggan dari input
-        $customerId = $request->CustomerID;
-
-        // Periksa apakah produk sudah ada di keranjang
-        $cartItem = Cart::where('CustomerID', $customerId)
-                        ->where('ProductID', $request->ProductID)
-                        ->first();
-
-        if ($cartItem) {
-            // Update kuantitas jika produk sudah ada di keranjang
-            $cartItem->Quantity += $request->Quantity;
-            $cartItem->save();
-        } else {
-            // Tambahkan item ke keranjang
-            Cart::create([
-                'CustomerID' => $customerId,
-                'ProductID' => $request->ProductID,
-                'Quantity' => $request->Quantity,
-            ]);
-        }
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Produk berhasil ditambahkan ke keranjang'
-        ], 201);
-    }
+    
 
     // Method untuk mendapatkan semua item keranjang untuk pelanggan
     public function getCartItems($customerId)
@@ -254,3 +216,4 @@ class CartController extends Controller
         return response()->json(['status' => true, 'tracking' => $tracking]);
     }
 }
+

@@ -37,34 +37,35 @@ class CustomersController extends Controller
     }
 
     public function signIn(Request $request)
-    {
-        // Validasi input
-        $validator = Validator::make($request->all(), [
-            'CustomerName' => 'required|string',
-            'Password' => 'required|string',
-        ]);
+{
+    // Validasi input
+    $validator = Validator::make($request->all(), [
+        'CustomerName' => 'required|string',
+        'Password' => 'required|string',
+    ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
-        }
-
-        // Cari customer berdasarkan nama dan password
-        $customer = Customers::where('CustomerName', $request->CustomerName)->first();
-
-        if (!$customer || !Hash::check($request->Password, $customer->Password)) {
-            return response()->json(['message' => 'Invalid credentials'], 401);
-        }
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Login berhasil',
-            'customer' => [
-                'CustomerID' => $customer->CustomerID,
-                'CustomerName' => $customer->CustomerName,
-                'Email' => $customer->Email,
-            ]
-        ], 200);
+    if ($validator->fails()) {
+        return response()->json($validator->errors(), 422);
     }
+
+    // Cari customer berdasarkan nama dan password
+    $customer = Customers::where('CustomerName', $request->CustomerName)->first();
+
+    if (!$customer || !Hash::check($request->Password, $customer->Password)) {
+        return response()->json(['message' => 'Kredensial tidak valid'], 401);
+    }
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Login berhasil',
+        'customer' => [
+            'CustomerID' => $customer->CustomerID,
+            'CustomerName' => $customer->CustomerName,
+            'Email' => $customer->Email,
+        ]
+    ], 200);
+}
+
 
     public function getAllCustomers()
     {

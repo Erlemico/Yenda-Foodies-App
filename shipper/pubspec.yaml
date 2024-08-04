@@ -22,7 +22,7 @@ dev_dependencies:
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/images/splash.png" # Pastikan path ini sesuai dengan lokasi ikon baru Anda
+  image_path: "assets/images/splash.png"
   min_sdk_android: 21
 
 flutter:
