@@ -215,5 +215,30 @@ class CartController extends Controller
 
         return response()->json(['status' => true, 'tracking' => $tracking]);
     }
+
+    public function addToCart(Request $request)
+    {
+        $validated = $request->validate([
+            'CustomerID' => 'required|uuid',
+            'ProductID' => 'required|string',
+            'Quantity' => 'required|integer|min:1',
+        ]);
+
+        // Check if the item is already in the cart
+        $cartItem = Cart::where('CustomerID', $validated['CustomerID'])
+                        ->where('ProductID', $validated['ProductID'])
+                        ->first();
+
+        if ($cartItem) {
+            // If item exists, update the quantity
+            $cartItem->Quantity += $validated['Quantity'];
+            $cartItem->save();
+        } else {
+            // If item does not exist, create a new cart item
+            Cart::create($validated);
+        }
+
+        return response()->json(['message' => 'Item added to cart successfully'], 200);
+    }
 }
 

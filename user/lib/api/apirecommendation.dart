@@ -18,6 +18,7 @@ class ApiRecommendation {
             'name': item['ProductName'],
             'price': item['UnitPrice'].toString(),
             'description': item['Description'],
+            'productId':item['ProductID'],
           };
         }).toList();
       } else {

@@ -119,7 +119,7 @@ Route::get('/orders/{orderId}/tracking', [CartController::class, 'getTracking'])
 Route::post('/customers/signout', [CustomersController::class, 'signOut']);
 
 
-
+Route::post('/cart/add', [CartController::class, 'addToCart']);
 
 
 

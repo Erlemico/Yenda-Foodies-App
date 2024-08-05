@@ -170,7 +170,6 @@ class ProductsController extends Controller
 
     public function getTotalPayment()
     {
-        // Hitung total pembayaran berdasarkan OrderDetails
         $totalPayment = DB::table('OrderDetails')
             ->join('Orders', 'OrderDetails.OrderID', '=', 'Orders.OrderID')
             ->select(DB::raw('SUM(OrderDetails.Quantity * OrderDetails.UnitPrice) as total_payment'))
