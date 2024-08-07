@@ -13,7 +13,6 @@ return new class extends Migration
             $table->uuid('StaffID')->nullable();
             $table->uuid('CustomerID')->nullable();
             $table->string('StatusCode')->nullable();
-            $table->string('PaymentID')->nullable();
             $table->dateTime('OrderDate')->nullable();
             $table->decimal('TotalOrder', 10, 2)->nullable();
             $table->decimal('TotalAmount', 10, 2)->nullable();

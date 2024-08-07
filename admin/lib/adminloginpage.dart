@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'dashboardadminpage.dart';
 import 'forgotpasswordpage.dart';
 
@@ -17,12 +19,69 @@ class _LoginPage extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    // Delay the animation to start after the screen is built
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {
         _animate = true;
       });
     });
+  }
+
+  Future<void> _login() async {
+    final String apiUrl = 'http://localhost:8000/api/staff/signin';
+    final response = await http.post(
+      Uri.parse(apiUrl),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'StaffName': phoneNumberController.text.trim(),
+        'Password': passwordController.text.trim(),
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);
+      if (responseData['success']) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const DashboardPage()),
+        );
+      } else {
+        _showErrorDialog(responseData['message']);
+      }
+    } else {
+      _showErrorDialog('Gagal terhubung ke server.');
+    }
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text(
+            'Error',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          content: Text(
+            message,
+            style: const TextStyle(color: Colors.white),
+          ),
+          backgroundColor: const Color(0xFFE00E0F),
+          actions: <Widget>[
+            TextButton(
+              child: const Text(
+                'OK',
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -46,12 +105,7 @@ class _LoginPage extends State<LoginPage> {
                 height: 550,
                 decoration: const BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
-                    bottomLeft: Radius.circular(20),
-                    bottomRight: Radius.circular(20)
-                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
                 ),
                 child: SingleChildScrollView(
                   child: Container(
@@ -170,56 +224,14 @@ class _LoginPage extends State<LoginPage> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 50), // Adjust the height as needed
+                        const SizedBox(height: 50),
                         Align(
                           alignment: Alignment.center,
                           child: SizedBox(
                             width: 275,
                             height: 50,
                             child: ElevatedButton(
-                              onPressed: () {
-                                // Validasi nomor telepon dan password
-                                String phoneNumber = phoneNumberController.text.trim();
-                                String password = passwordController.text.trim();
-
-                                if (phoneNumber.isEmpty || password.isEmpty) {
-                                  // Menampilkan pesan error jika ada field yang kosong
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: const Text(
-                                          'Error',
-                                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                                        ),
-                                        content: const Text(
-                                          'Masukan Nama Pengguna dan Kata Sandi Terlebih Dahulu',
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                        backgroundColor: const Color(0xFFE00E0F),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            child: const Text(
-                                              'OK',
-                                              style: TextStyle(color: Colors.white),
-                                            ),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                } else {
-                                  // Simulasi sign in berhasil
-                                  // Navigasi ke halaman HomeScreen setelah sign in berhasil
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => const DashboardPage()),
-                                  );
-                                }
-                              },
+                              onPressed: _login,
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFFE00E0F),
                                 minimumSize: const Size(275, 20),

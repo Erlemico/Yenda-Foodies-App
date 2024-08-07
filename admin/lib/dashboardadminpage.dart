@@ -39,11 +39,11 @@ class _DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> pages = [
-      DashboardContentPage(onSelectPage: _selectPage), // Pass the callback here
+      DashboardContentPage(onSelectPage: _selectPage),
       const ProdukPage(),
       const PesananPage(),
       const RiwayatPage(),
-      const AkunPage(),
+      const Account(),
     ];
 
     return Scaffold(
@@ -72,8 +72,8 @@ class DashboardContentPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container( // Add Container here
-      color: Colors.white, // Set the background color to white
+    return Container(
+      color: Colors.white,
       child: Column(
         children: [
           Container(
@@ -138,8 +138,8 @@ class DashboardContentPage extends StatelessWidget {
           ),
           const SizedBox(height: 16.0),
           Container(
-            color: Colors.white, // Set the background color to white
-            padding: const EdgeInsets.all(16.0), // Adjust padding as needed
+            color: Colors.white,
+            padding: const EdgeInsets.all(16.0),
             child: const Text(
               'Produk Rekomendasi',
               style: TextStyle(
@@ -195,8 +195,6 @@ class DashboardContentPage extends StatelessWidget {
     );
   }
 }
-
-
 
 class InfoCard extends StatelessWidget {
   final String title;

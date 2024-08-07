@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _selectedIndex = widget.initialIndex;
-    _productsFuture = ApiRecommendation().fetchMenuItems(); // Fetch data
+    _productsFuture = ApiRecommendation().fetchMenuItems();
 
     _bannerTimer = Timer.periodic(Duration(seconds: 3), (Timer timer) {
       setState(() {

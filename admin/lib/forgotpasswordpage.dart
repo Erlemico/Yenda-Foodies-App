@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
-import 'ubahpasswordpage.dart'; // Sesuaikan dengan path halaman OTP reset password
+import 'package:http/http.dart' as http;
+import 'ubahpasswordpage.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
   final TextEditingController verificationController = TextEditingController();
 
   ForgotPasswordPage({super.key});
 
-  void _ForgotPasswordPage(BuildContext context) {
-    String username = verificationController.text.trim(); // Ambil nilai dari TextField
+  Future<void> _ForgotPasswordPage(BuildContext context) async {
+    String username = verificationController.text.trim();
 
     if (username.isEmpty) {
-      // Jika nama pengguna kosong, tampilkan dialog peringatan
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Peringatan', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            title: const Text(
+              'Peringatan',
+              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            ),
             backgroundColor: const Color(0xFFE00E0F),
             content: const Text(
               'Silakan isi nama pengguna terlebih dahulu!',
@@ -23,9 +26,9 @@ class ForgotPasswordPage extends StatelessWidget {
             ),
             actions: <Widget>[
               TextButton(
-                child: const Text('OK', style: TextStyle(color: Colors.white)), // Ubah warna teks menjadi putih
+                child: const Text('OK', style: TextStyle(color: Colors.white)),
                 onPressed: () {
-                  Navigator.of(context).pop(); // Tutup dialog
+                  Navigator.of(context).pop();
                 },
               ),
             ],
@@ -33,16 +36,17 @@ class ForgotPasswordPage extends StatelessWidget {
         },
       );
     } else {
-      // Jika nama pengguna tidak kosong, lanjutkan verifikasi
-      bool accountExists = checkAccountExists(username); // Ganti dengan logika sesungguhnya
+      bool accountExists = await checkAccountExists(username);
 
       if (accountExists) {
-        // Jika akun ditemukan, tampilkan dialog sukses dan navigasi ke OTP reset password
         showDialog(
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: const Text('Akun Ditemukan', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+              title: const Text(
+                'Akun Ditemukan',
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              ),
               backgroundColor: const Color(0xFFE00E0F),
               content: Text(
                 'Akun dengan nama pengguna $username telah ditemukan.',
@@ -50,12 +54,13 @@ class ForgotPasswordPage extends StatelessWidget {
               ),
               actions: <Widget>[
                 TextButton(
-                  child: const Text('OK', style: TextStyle(color: Colors.white)), // Ubah warna teks menjadi putih
+                  child: const Text('OK', style: TextStyle(color: Colors.white)),
                   onPressed: () {
-                    Navigator.of(context).pop(); // Tutup dialog
+                    Navigator.of(context).pop();
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => UbahPasswordPage()), // Navigasi ke halaman OTP reset password
+                      MaterialPageRoute(
+                          builder: (context) => UbahPasswordPage()),
                     );
                   },
                 ),
@@ -64,12 +69,14 @@ class ForgotPasswordPage extends StatelessWidget {
           },
         );
       } else {
-        // Jika akun tidak ditemukan, tampilkan dialog peringatan
         showDialog(
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: const Text('Akun Tidak Ditemukan', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+              title: const Text(
+                'Akun Tidak Ditemukan',
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              ),
               backgroundColor: const Color(0xFFE00E0F),
               content: const Text(
                 'Pastikan akun yang Anda masukkan terdaftar!',
@@ -77,9 +84,9 @@ class ForgotPasswordPage extends StatelessWidget {
               ),
               actions: <Widget>[
                 TextButton(
-                  child: const Text('OK', style: TextStyle(color: Colors.white)), // Ubah warna teks menjadi putih
+                  child: const Text('OK', style: TextStyle(color: Colors.white)),
                   onPressed: () {
-                    Navigator.of(context).pop(); // Tutup dialog
+                    Navigator.of(context).pop();
                   },
                 ),
               ],
@@ -90,11 +97,17 @@ class ForgotPasswordPage extends StatelessWidget {
     }
   }
 
-  bool checkAccountExists(String username) {
-    // Logika sederhana untuk mengecek keberadaan akun
-    // Gantilah dengan logika sesungguhnya (misalnya panggil API atau cek database)
-    // Contoh sederhana: kembalikan nilai true secara acak untuk simulasi
-    return true; // Ubah ini dengan logika sesungguhnya (misalnya panggil API atau cek database)
+  Future<bool> checkAccountExists(String username) async {
+    final response = await http.post(
+      Uri.parse('http://localhost:8000/api/staff/forgot-password/verify-email'),
+      body: {'Email': username},
+    );
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @override
@@ -123,7 +136,7 @@ class ForgotPasswordPage extends StatelessWidget {
             right: 0,
             child: Center(
               child: Image.asset(
-                'assets/images/yendafoodies.png', // Ganti dengan path gambar ikon verifikasi Anda
+                'assets/images/yendafoodies.png',
                 width: 250,
                 height: 130,
               ),
@@ -131,19 +144,14 @@ class ForgotPasswordPage extends StatelessWidget {
           ),
           AnimatedPositioned(
             duration: const Duration(seconds: 0),
-            top: (MediaQuery.of(context).size.height - 300) / 2,  // Center vertically
-            left: (MediaQuery.of(context).size.width - 430) / 2,  // Center horizontally
+            top: (MediaQuery.of(context).size.height - 300) / 2,
+            left: (MediaQuery.of(context).size.width - 430) / 2,
             child: Container(
               width: 430,
               height: 400,
               decoration: const BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                  bottomLeft: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
-                ),
+                borderRadius: BorderRadius.all(Radius.circular(20)),
               ),
               child: SingleChildScrollView(
                 child: Container(
@@ -163,7 +171,7 @@ class ForgotPasswordPage extends StatelessWidget {
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      const SizedBox(height: 8), // Tambahkan jarak yang lebih kecil
+                      const SizedBox(height: 8),
                       const Text(
                         'Silakan masukkan nama pengguna terlebih dahulu',
                         style: TextStyle(
@@ -183,18 +191,22 @@ class ForgotPasswordPage extends StatelessWidget {
                           labelStyle: const TextStyle(color: Color(0xFFE00E0F)),
                           fillColor: Colors.white,
                           filled: true,
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+                          contentPadding:
+                              const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(50),
-                            borderSide: const BorderSide(color: Color(0xFFE00E0F), width: 1.5),
+                            borderSide:
+                                const BorderSide(color: Color(0xFFE00E0F), width: 1.5),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(50),
-                            borderSide: const BorderSide(color: Color(0xFFE00E0F), width: 1.5),
+                            borderSide:
+                                const BorderSide(color: Color(0xFFE00E0F), width: 1.5),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(50),
-                            borderSide: const BorderSide(color: Color(0xFFE00E0F), width: 2),
+                            borderSide:
+                                const BorderSide(color: Color(0xFFE00E0F), width: 2),
                           ),
                           errorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(50),
@@ -209,16 +221,16 @@ class ForgotPasswordPage extends StatelessWidget {
                       const SizedBox(height: 95),
                       ElevatedButton(
                         onPressed: () {
-                          _ForgotPasswordPage(context); // Panggil metode verifikasi saat tombol ditekan
+                          _ForgotPasswordPage(context);
                         },
                         style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFFE00E0F),
-                              minimumSize: const Size(275, 20),
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50),
-                                side: const BorderSide(color: Color(0xFFE00E0F)),
-                              ),
+                          backgroundColor: const Color(0xFFE00E0F),
+                          minimumSize: const Size(275, 20),
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50),
+                            side: const BorderSide(color: Color(0xFFE00E0F)),
+                          ),
                         ),
                         child: const Text(
                           'Masuk',

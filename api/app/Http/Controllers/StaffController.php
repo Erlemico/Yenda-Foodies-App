@@ -83,8 +83,8 @@ class StaffController extends Controller
     public function resetPassword(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email' => 'required|email|exists:Staff,Email',
-            'password' => 'required|string|confirmed|min:8',
+            'Email' => 'required|email|exists:Staff,Email',
+            'Password' => 'required|string|confirmed|min:8',
         ]);
 
         if ($validator->fails()) {

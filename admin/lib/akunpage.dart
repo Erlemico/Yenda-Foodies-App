@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:homemenu/adminloginpage.dart';
 
-class AkunPage extends StatefulWidget {
-  const AkunPage({super.key});
+class Account extends StatefulWidget {
+  const Account({super.key});
 
   @override
-  _AkunPageState createState() => _AkunPageState();
+  _AccountState createState() => _AccountState();
 }
 
-class _AkunPageState extends State<AkunPage> {
+class _AccountState extends State<Account> {
   String selectedPage = 'Akun';
 
   @override
@@ -20,7 +20,7 @@ class _AkunPageState extends State<AkunPage> {
           
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.all(16.0), // Add padding here
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: <Widget>[
                   const Text(

@@ -33,7 +33,7 @@ class UbahPasswordPage extends StatelessWidget {
             right: 0,
             child: Center(
               child: Image.asset(
-                'assets/images/yendafoodies.png', // Ganti dengan path gambar ikon verifikasi Anda
+                'assets/images/yendafoodies.png',
                 width: 250,
                 height: 130,
               ),
@@ -41,8 +41,8 @@ class UbahPasswordPage extends StatelessWidget {
           ),
           AnimatedPositioned(
             duration: const Duration(seconds: 0),
-            top: (MediaQuery.of(context).size.height - 300) / 2,  // Center vertically
-            left: (MediaQuery.of(context).size.width - 430) / 2,  // Center horizontally
+            top: (MediaQuery.of(context).size.height - 300) / 2,
+            left: (MediaQuery.of(context).size.width - 430) / 2,
             child: Container(
               width: 430,
               height: 400,
