@@ -194,5 +194,31 @@ class ProductsController extends Controller
             'message' => 'Semua produk ditemukan',
             'data' => $products
         ], 200);
-    } 
+    }
+
+    public function getProductUser(Request $request)
+    {
+        auth()->guard('api_customer')->logout();
+        $name = $request->input('name');
+        $category = $request->input('category');
+
+        // Semua produk dari tabel Products, diurutkan berdasarkan ProductName, dan kolom yang diperlukan
+        $products = Products::select('ProductID', 'ImageProduct', 'ProductName', 'UnitPrice', 'Description');
+
+        if ($name != null) {
+            $products = $products->where('ProductName', 'like', '%' . $name . '%');
+        }
+
+        if ($category != null) {
+            $products = $products->where('category', '=', $category);
+        }
+
+        $products = $products->orderBy('ProductName', 'asc')->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Semua produk ditemukan',
+            'data' => $products
+        ], 200);
+    }
 }

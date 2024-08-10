@@ -9,29 +9,29 @@ class Payments extends Model
 {
     use HasFactory;
 
-    protected $table = 'payment';
+    public $timestamps = false;
+    protected $table = 'payments';
     protected $primaryKey = 'PaymentID';
     public $incrementing = false;
     protected $keyType = 'string';
 
     protected $fillable = [
         'PaymentID',
-        'StaffID',
+        'AdminID',
         'OrderID',
         'Amount',
         'PaymentMethod',
         'PaymentDate',
-        'StatusCode'
     ];
 
     public function staff()
     {
-        return $this->belongsTo(Staff::class, 'StaffID');
+        return $this->belongsTo(Staff::class, 'AdminID');
     }
 
     public function order()
     {
         return $this->belongsTo(Orders::class, 'OrderID');
     }
-    
+
 }

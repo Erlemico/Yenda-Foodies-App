@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('Payments', function (Blueprint $table) {
             $table->string('PaymentID')->primary();
-            $table->uuid('StaffID');
+            $table->uuid('AdminID');
             $table->uuid('OrderID');
             $table->integer('Amount')->nullable();
             $table->string('PaymentMethod')->nullable();
             $table->dateTime('PaymentDate')->nullable();
             $table->string('StatusCode');
 
-            $table->foreign('StaffID')->references('StaffID')->on('Staff')->onDelete('cascade');
+            $table->foreign('AdminID')->references('AdminID')->on('Admin')->onDelete('cascade');
             $table->foreign('OrderID')->references('OrderID')->on('Orders')->onDelete('cascade');
         });
     }

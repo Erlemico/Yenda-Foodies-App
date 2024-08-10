@@ -35,7 +35,7 @@ class Products extends Model
     // Relasi dengan model Staff untuk CreatedBy
     public function createdBy()
     {
-        return $this->belongsTo(Staff::class, 'CreatedBy', 'StaffID');
+        return $this->belongsTo(Staff::class, 'CreatedBy', 'AdminID');
     }
 
     // Relasi dengan model Category

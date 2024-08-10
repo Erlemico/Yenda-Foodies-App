@@ -11,39 +11,28 @@ class Orders extends Model
 
     protected $table = 'Orders';
     protected $primaryKey = 'OrderID';
-    public $incrementing = false; // Karena OrderID adalah UUID
+    public $incrementing = false;
     protected $keyType = 'string';
 
     protected $fillable = [
         'OrderID',
-        'StaffID',
+        'AdminID',
         'CustomerID',
         'StatusCode',
         'OrderDate',
         'TotalOrder',
         'TotalAmount',
         'DeliveryAddress',
-        'Shipper',
     ];
 
     public function staff()
     {
-        return $this->belongsTo(Staff::class, 'StaffID');
+        return $this->belongsTo(Staff::class, 'AdminID');
     }
 
     public function customer()
     {
         return $this->belongsTo(Customers::class, 'CustomerID');
-    }
-
-    public function status()
-    {
-        return $this->belongsTo(Status::class, 'StatusCode', 'StatusCode');
-    }
-
-    public function shipper()
-    {
-        return $this->belongsTo(Staff::class, 'Shipper');
     }
 
     public function orderDetails()

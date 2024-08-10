@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('Staff', function (Blueprint $table) {
-            $table->uuid('StaffID')->primary();
-            $table->string('StaffName');
-            $table->string('Level');
+        Schema::create('Admin', function (Blueprint $table) {
+            $table->uuid('AdminID')->primary();
+            $table->string('AdminName');
             $table->string('NumberPhone')->nullable();
             $table->string('Email')->nullable()->unique();
             $table->string('Password')->nullable();
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('Staff');
+        Schema::dropIfExists('Admin');
     }
 };

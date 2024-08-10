@@ -33,4 +33,16 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    // sekitar baris ke 123
+    // 'log' => env('APP_LOG', 'single'),
+
+    // Ganti log menjadi per hari
+    'log' => 'daily',
+
+    // Agar jumlah maksimum log untuk 30 hari
+    'log_max_files' => 30,
+
+    'log_level' => env('APP_LOG_LEVEL', 'debug'),
+
+
 ];

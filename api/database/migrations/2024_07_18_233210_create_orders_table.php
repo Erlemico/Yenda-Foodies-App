@@ -10,20 +10,17 @@ return new class extends Migration
     {
         Schema::create('Orders', function (Blueprint $table) {
             $table->uuid('OrderID')->primary();
-            $table->uuid('StaffID')->nullable();
+            $table->uuid('AdminID')->nullable();
             $table->uuid('CustomerID')->nullable();
             $table->string('StatusCode')->nullable();
             $table->dateTime('OrderDate')->nullable();
             $table->decimal('TotalOrder', 10, 2)->nullable();
             $table->decimal('TotalAmount', 10, 2)->nullable();
             $table->text('DeliveryAddress')->nullable();
-            $table->uuid('Shipper')->nullable();
             $table->timestamps();
 
-            $table->foreign('StaffID')->references('StaffID')->on('Staff')->onDelete('set null');
+            $table->foreign('AdminID')->references('AdminID')->on('Admin')->onDelete('set null');
             $table->foreign('CustomerID')->references('CustomerID')->on('Customers')->onDelete('set null');
-            $table->foreign('StatusCode')->references('StatusCode')->on('Status')->onDelete('set null');
-            $table->foreign('Shipper')->references('StaffID')->on('Staff')->onDelete('set null');
         });
     }
 

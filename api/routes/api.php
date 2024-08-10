@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\CustomersController;
 use App\Http\Controllers\StaffController;
-use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrdersController;
 
 
 // API Staff
@@ -44,25 +44,6 @@ Route::put('/staff/update-profile', [StaffController::class, 'updateProfile']);
 // sign out
 Route::post('/signout', [StaffController::class, 'signout']);
 
-// Route untuk menambah produk ke keranjang
-Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
-
-// Route untuk mendapatkan semua item keranjang berdasarkan CustomerID
-Route::get('/cart/items/{customerId}', [CartController::class, 'getCartItems'])->name('cart.items');
-
-// Route untuk menerima pesanan
-Route::post('/order/accept/{orderId}', [CartController::class, 'acceptOrder'])->name('order.accept');
-
-// Route untuk menolak pesanan
-Route::post('/order/reject/{orderId}', [CartController::class, 'rejectOrder'])->name('order.reject');
-
-// Route untuk mendapatkan detail pesanan
-Route::get('/order/details/{orderId}', [CartController::class, 'getOrderDetails']);
-
-// Route untuk mendapatkan informasi pelacakan pesanan
-Route::get('/order/tracking/{orderId}', [CartController::class, 'getTracking'])->name('order.tracking');
-
-
 
 
 
@@ -75,6 +56,58 @@ Route::get('/customers', [CustomersController::class, 'getAllCustomers']);
 Route::post('/customers/signup', [CustomersController::class, 'signUp']);
 
 // customer sign in
+
+use App\Http\Controllers\AuthController;
+
+
+Route::group([
+    'prefix' => 'customer-new'
+], function () {
+    Route::post('register', [AuthController::class, 'register']);
+    Route::post('login', [AuthController::class, 'login']);
+
+    Route::group([
+        'middleware' => 'api',
+    ], function () {
+        Route::post('logout', [AuthController::class, 'logout']);
+        Route::post('refresh', [AuthController::class, 'refresh']);
+
+        Route::get('product', [ProductsController::class, 'getProductUser']);
+
+        Route::group([
+            'prefix' => 'order'
+        ], function () {
+            Route::post('/', [OrdersController::class, 'orderProduct']);
+            Route::post('payment', [OrdersController::class, 'orderPayment']);
+        });
+    });
+});
+
+
+Route::group([
+    'prefix' => 'admin-new'
+], function () {
+    Route::post('register', [AuthController::class, 'register']);
+    Route::post('login', [AuthController::class, 'login_staff']);
+
+    Route::group([
+        'middleware' => 'api',
+    ], function () {
+        Route::post('logout', [AuthController::class, 'logout']);
+        Route::post('refresh', [AuthController::class, 'refresh']);
+
+        Route::get('product', [ProductsController::class, 'getProductUser']);
+
+        Route::group([
+            'prefix' => 'order'
+        ], function () {
+            Route::post('/', [OrdersController::class, 'orderProduct']);
+            Route::post('payment', [OrdersController::class, 'orderProcessing']);
+        });
+    });
+});
+
+
 Route::post('/customers/signin', [CustomersController::class, 'signIn']);
 
 // customer Forgot Password
@@ -91,11 +124,6 @@ Route::get('/customers/{id}', [CustomersController::class, 'getCustomerById']);
 // show menu recommendations
 Route::get('recommendation', [ProductsController::class, 'getMenuItems']);
 
-// add product to cart
-Route::post('/add-to-cart', [CartController::class, 'addToCart']);
-
-// show product in cart
-Route::get('/cart/{customerId}', [CartController::class, 'getCartItems']);
 
 // show all product
 Route::get('/products', [ProductsController::class, 'index']);
@@ -106,24 +134,10 @@ Route::get('/all-products', [ProductsController::class, 'getAllProducts']);
 // search products by name
 Route::get('products/search/{name}', [ProductsController::class, 'show']);
 
-// checkout product
-Route::post('/checkout', [CartController::class, 'checkout']);
-
-// show order details
-Route::get('/orders/{orderId}/details', [CartController::class, 'getOrderDetails']);
-
-// track order
-Route::get('/orders/{orderId}/tracking', [CartController::class, 'getTracking']);
-
 // sign out
 Route::post('/customers/signout', [CustomersController::class, 'signOut']);
 
 
-Route::post('/cart/add', [CartController::class, 'addToCart']);
-
-
-
-use App\Http\Controllers\OrdersController;
 
 Route::get('/orders', [OrdersController::class, 'index']);
 Route::get('/orders/{id}', [OrdersController::class, 'show']);

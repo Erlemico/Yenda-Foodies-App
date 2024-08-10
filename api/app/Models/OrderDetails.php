@@ -18,10 +18,8 @@ class OrderDetails extends Model
         'OrderDetailID',
         'OrderID',
         'ProductID',
-        'ProductName',
         'Quantity',
         'UnitPrice',
-        'Notes',
     ];
 
     public function order()
