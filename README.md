@@ -5,14 +5,13 @@ find menu information, read reviews, and enjoy an easier ordering experience.
 This app is built with Flutter and Dart for the user interface (frontend) and PHP Laravel 11 for the API and data management (backend).
 
 Main Features
-
 Complete Menu List: Displays the full menu of Warung Padang Yenda Foodies, including prices and descriptions.
 Popular Menu Recommendations: Provides recommendations for the most ordered menu items.
 Customer Reviews and Ratings: Users can leave reviews and ratings for the menu items they’ve tried.
 User Profile: Users can create profiles, view order histories, and manage preferences.
 Delivery Service (Shipper): Supports ordering with a delivery option for customer convenience.
-Technologies Used
 
+Technologies Used
 Frontend: Flutter & Dart
 Backend: PHP Laravel 11
 
