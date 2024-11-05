@@ -15,10 +15,9 @@ Technologies Used
 
 Frontend: Flutter & Dart
 Backend: PHP Laravel 11
-Project Structure
 
-bash
-Copy code
+
+Project Structure
 Yenda-Foodies-App/
 ├── admin/               # Admin app for menu and data management
 │   ├── lib/             # Main code for the admin interface
