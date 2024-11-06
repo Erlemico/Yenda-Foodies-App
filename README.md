@@ -1,22 +1,21 @@
-Yenda Foodies App
-
+# Yenda Foodies App
 Yenda Foodies App is an application designed specifically to help customers of Warung Padang Yenda Foodies
 find menu information, read reviews, and enjoy an easier ordering experience. 
 This app is built with Flutter and Dart for the user interface (frontend) and PHP Laravel 11 for the API and data management (backend).
 
-Main Features
+# Main Features
 Complete Menu List: Displays the full menu of Warung Padang Yenda Foodies, including prices and descriptions.
 Popular Menu Recommendations: Provides recommendations for the most ordered menu items.
 Customer Reviews and Ratings: Users can leave reviews and ratings for the menu items they’ve tried.
 User Profile: Users can create profiles, view order histories, and manage preferences.
 Delivery Service (Shipper): Supports ordering with a delivery option for customer convenience.
 
-Technologies Used
+# Technologies Used
 Frontend: Flutter & Dart
 Backend: PHP Laravel 11
 
 
-Project Structure
+# Project Structure
 Yenda-Foodies-App/
 ├── admin/               # Admin app for menu and data management
 │   ├── lib/             # Main code for the admin interface
@@ -34,8 +33,8 @@ Yenda-Foodies-App/
 │   └── assets/          # Asset files for the user app
 └── README.md            # Project documentation
 
-Installation:
-- Backend (Laravel 11)
+# Installation:
+# - Backend (Laravel 11)
 1. Clone the repository:
 git clone https://github.com/Erlemico/Yenda-Foodies-App.git
 
@@ -57,7 +56,7 @@ php artisan migrate
 7. Start the Laravel server:
 php artisan serve
 
-- Frontend (Flutter)
+# - Frontend (Flutter)
 1. Make sure you’re in the main repository directory, then go to the user folder for the user app:
 cd Yenda-Foodies-App/user
 
@@ -67,7 +66,7 @@ flutter pub get
 3. Run the Flutter app on an emulator or physical device:
 flutter run
 
-- Admin Panel
+# - Admin Panel
 1. To access the admin panel, go to the admin directory:
 cd Yenda-Foodies-App/admin
 
@@ -77,7 +76,7 @@ flutter pub get
 3. Run the admin app:
 flutter run
 
-- Shipper App
+# - Shipper App
 1. Go to the shipper directory for the delivery app:
 cd Yenda-Foodies-App/shipper
 
@@ -87,15 +86,16 @@ flutter pub get
 3. Run the shipper app:
 flutter run
 
-Usage
+# Usage
 Admin Panel: Allows admins to add, edit, and delete menu items, view order reports, and manage restaurant data.
 User App: Allows users to browse the menu, leave reviews, view popular menu recommendations, and place orders.
 Shipper App: Handles delivery orders to customers.
 
-Contribution
+# Contribution
 We welcome contributions from anyone who wants to help improve this app. If you would like to contribute:
 
 1. Fork this repository.
+
 2. Create a new branch for your feature or fix:
 git checkout -b new-feature
 
@@ -107,5 +107,5 @@ git push origin new-feature
 
 5. Open a pull request to this repository.
 
-License
+# License
 This project is licensed under the MIT License.
